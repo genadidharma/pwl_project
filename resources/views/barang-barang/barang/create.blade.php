@@ -6,14 +6,14 @@
         <div class="row">
             <div class="col-12 col-md-6 order-md-1 order-last">
                 <h3>Barang</h3>
-                <p class="text-subtitle text-muted">Ubah data Barang</p>
+                <p class="text-subtitle text-muted">Tambah data Barang</p>
             </div>
             <div class="col-12 col-md-6 order-md-2 order-first">
                 <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="index.html">Dashboard</a></li>
-                        <li class="breadcrumb-item"> <a href="index.html">Barang</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">Ubah</li>
+                        <li class="breadcrumb-item"><a href="{{route('dashboard')}}">Dashboard</a></li>
+                        <li class="breadcrumb-item"> <a href="{{route('barang.index')}}">Barang</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Tambah</li>
                     </ol>
                 </nav>
             </div>
@@ -22,7 +22,7 @@
     <div class="section">
         <div class="card">
             <div class="card-header">
-                <h4 class="card-title">Ubah Barang</h4>
+                <h4 class="card-title">Tambah Barang</h4>
                 <p><span class="text-danger">*</span> Wajib diisi</p>
             </div>
 
@@ -45,7 +45,7 @@
                         <input type="text" class="form-control" id="basicInput" name="nama" placeholder="Masukan Nama">
                     </div>
                     <div class="form-group">
-                        <label for="basicInput">Gambar</label>
+                        <label for="basicInput">Gambar <span class="text-danger">*</span></label>
                         <input type="file" class="image-crop-filepond" image-crop-aspect-ratio="1:1" name="gambar">
                     </div>
                     <div class="form-group">
@@ -55,7 +55,7 @@
                             <input type="text" class="form-control" placeholder="Masukan Harga Satuan" id="basicInput" name="harga">
                         </div>
                     </div>
-                    <input type="submit" value="Ubah" class="btn btn-primary float-end mt-3">
+                    <input type="submit" value="Tambah" class="btn btn-primary float-end mt-3">
                 </form>
             </div>
         </div>

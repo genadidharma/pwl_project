@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 
 <head>
     <meta charset="UTF-8">
@@ -12,11 +12,11 @@
 
     <link rel="stylesheet" href="{{asset('assets/vendors/perfect-scrollbar/perfect-scrollbar.css')}}">
     <link rel="stylesheet" href="{{asset('assets/vendors/bootstrap-icons/bootstrap-icons.css')}}">
-    <link rel="stylesheet" href="{{asset('assets/css/app.css')}}">
     <link rel="stylesheet" href="{{asset('assets/vendors/simple-datatables/style.css')}}">
     <link rel="stylesheet" href="{{asset('assets/vendors/choices.js/choices.min.css')}}" />
     <link href="https://unpkg.com/filepond/dist/filepond.css" rel="stylesheet">
     <link href="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{asset('assets/css/app.css')}}">
     <link rel="shortcut icon" href="{{asset('assets/images/favicon.svg')}}" type="image/x-icon">
 </head>
 
@@ -28,7 +28,7 @@
                 <div class="sidebar-header">
                     <div class="d-flex justify-content-between">
                         <div class="logo">
-                            <a href="index.html"><img src="assets/images/logo/logo.png" alt="Logo" srcset=""></a>
+                            <a href="index.html"><img src="{{asset('assets/images/logo/logo.png')}}" alt="Logo" srcset=""></a>
                         </div>
                         <div class="toggler">
                             <a href="#" class="sidebar-hide d-xl-none d-block"><i class="bi bi-x bi-middle"></i></a>
@@ -39,42 +39,42 @@
                     <ul class="menu">
                         <li class="sidebar-title">Menu</li>
 
-                        <li class="sidebar-item  ">
-                            <a href="index.html" class='sidebar-link'>
+                        <li class="sidebar-item {{ request()->is('admin/dashboard') ? 'active' : ''}}">
+                            <a href="{{route('dashboard')}}" class='sidebar-link'>
                                 <i class="bi bi-grid-fill"></i>
                                 <span>Dashboard</span>
                             </a>
                         </li>
 
-                        <li class="sidebar-item  has-sub">
+                        <li class="sidebar-item has-sub {{ request()->is('admin/pegawai/*') ? 'active' : ''}}">
                             <a href="#" class='sidebar-link'>
                                 <i class="bi bi-people-fill"></i>
-                                <span>Dokter & Kasir</span>
+                                <span>Pegawai</span>
                             </a>
-                            <ul class="submenu ">
-                                <li class="submenu-item ">
-                                    <a href="component-alert.html">Dokter</a>
+                            <ul class="submenu {{ request()->is('admin/pegawai/*') ? 'active' : ''}}">
+                                <li class="submenu-item {{ request()->routeIs('dokter.index') ? 'active' : ''}}">
+                                    <a href="{{route('dokter.index')}}">Dokter</a>
                                 </li>
-                                <li class="submenu-item ">
-                                    <a href="component-badge.html">Kasir</a>
+                                <li class="submenu-item {{ request()->routeIs('kasir.index') ? 'active' : ''}}">
+                                    <a href="{{route('kasir.index')}}">Kasir</a>
                                 </li>
                             </ul>
                         </li>
 
-                        <li class="sidebar-item  has-sub">
+                        <li class="sidebar-item  has-sub {{ request()->is('admin/barang-barang/*') ? 'active' : ''}}">
                             <a href="#" class='sidebar-link'>
                                 <i class="bi bi-box-seam"></i>
                                 <span>Barang</span>
                             </a>
-                            <ul class="submenu ">
-                                <li class="submenu-item ">
-                                    <a href="extra-component-avatar.html">Kategori Barang</a>
+                            <ul class="submenu {{ request()->is('admin/barang-barang/*') ? 'active' : ''}}">
+                                <li class="submenu-item {{ request()->routeIs('kategori-barang.index') ? 'active' : ''}}">
+                                    <a href="{{route('kategori-barang.index')}}">Kategori Barang</a>
                                 </li>
-                                <li class="submenu-item ">
-                                    <a href="extra-component-sweetalert.html">Barang</a>
+                                <li class="submenu-item {{ request()->routeIs('barang.index') ? 'active' : ''}}">
+                                    <a href="{{route('barang.index')}}">Barang</a>
                                 </li>
-                                <li class="submenu-item ">
-                                    <a href="extra-component-sweetalert.html">Stok</a>
+                                <li class="submenu-item {{ request()->routeIs('stok.index') ? 'active' : ''}}">
+                                    <a href="{{route('stok.index')}}">Stok</a>
                                 </li>
                             </ul>
                         </li>
@@ -119,7 +119,7 @@
                                         </div>
                                         <div class="user-img d-flex align-items-center">
                                             <div class="avatar avatar-md">
-                                                <img src="assets/images/faces/1.jpg">
+                                                <img src="{{asset('assets/images/faces/1.jpg')}}">
                                             </div>
                                         </div>
                                     </div>
