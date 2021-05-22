@@ -39,8 +39,9 @@
                     <ul class="menu">
                         <li class="sidebar-title">Menu</li>
 
+                        @if(auth()->user()->getLevel() === 'admin')
                         <li class="sidebar-item {{ request()->is('admin/dashboard') ? 'active' : ''}}">
-                            <a href="{{route('dashboard')}}" class='sidebar-link'>
+                            <a href="{{route('admin.dashboard')}}" class='sidebar-link'>
                                 <i class="bi bi-grid-fill"></i>
                                 <span>Dashboard</span>
                             </a>
@@ -78,20 +79,25 @@
                                 </li>
                             </ul>
                         </li>
+                        @endif
 
+                        @if(auth()->user()->getLevel() === 'admin' || auth()->user()->getLevel() === 'dokter')
                         <li class="sidebar-item">
                             <a href="index.html" class='sidebar-link'>
                                 <i class="bi bi-binoculars-fill"></i>
                                 <span>Pemeriksaan</span>
                             </a>
                         </li>
+                        @endif
 
+                        @if(auth()->user()->getLevel() === 'kasir')
                         <li class="sidebar-item">
                             <a href="index.html" class='sidebar-link'>
                                 <i class="bi bi-bag-fill"></i>
                                 <span>Transaksi</span>
                             </a>
                         </li>
+                        @endif
 
                     </ul>
                 </div>
@@ -114,8 +120,16 @@
                                 <a href="#" data-bs-toggle="dropdown" aria-expanded="false">
                                     <div class="user-menu d-flex">
                                         <div class="user-name text-end me-3">
-                                            <h6 class="mb-0 text-gray-600">John Ducky</h6>
-                                            <p class="mb-0 text-sm text-gray-600">Administrator</p>
+                                            <h6 class="mb-0 text-gray-600">{{auth()->user()->nama}}</h6>
+                                            <p class="mb-0 text-sm text-gray-600">
+                                                @if(auth()->user()->getLevel() === 'admin')
+                                                Administrator
+                                                @elseif(auth()->user()->getLevel() === 'dokter')
+                                                Dokter
+                                                @elseif(auth()->user()->getLevel() === 'kasir')
+                                                Kasir
+                                                @endif
+                                            </p>
                                         </div>
                                         <div class="user-img d-flex align-items-center">
                                             <div class="avatar avatar-md">
@@ -137,7 +151,16 @@
                                     <li>
                                         <hr class="dropdown-divider">
                                     </li>
-                                    <li><a class="dropdown-item" href="#"><i class="icon-mid bi bi-box-arrow-left me-2"></i> Logout</a></li>
+                                    <li>
+                                        <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();">
+                                            <i class="icon-mid bi bi-box-arrow-left me-2"></i> Logout
+                                        </a>
+
+                                        <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                            @csrf
+                                        </form>
+                                    </li>
                                 </ul>
                             </div>
                         </div>
