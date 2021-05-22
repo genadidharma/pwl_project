@@ -13,7 +13,7 @@ class KategoriBarangController extends Controller
      */
     public function index()
     {
-        return view('barang-barang.kategori.index');
+        return view('admin.barang-barang.kategori.index');
     }
 
     /**

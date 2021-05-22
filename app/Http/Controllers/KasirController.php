@@ -13,7 +13,7 @@ class KasirController extends Controller
      */
     public function index()
     {
-        return view('pegawai.kasir.index');
+        return view('admin.pegawai.kasir.index');
     }
 
     /**

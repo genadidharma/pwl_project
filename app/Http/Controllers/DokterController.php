@@ -13,7 +13,7 @@ class DokterController extends Controller
      */
     public function index()
     {
-        return view('pegawai.dokter.index');
+        return view('admin.pegawai.dokter.index');
     }
 
     /**
