@@ -11,15 +11,19 @@ class User extends Authenticatable
 {
     use HasFactory, Notifiable;
 
+    protected $table = 'user';
+
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-        'name',
+        'nama',
         'email',
+        'username',
         'password',
+        'id_level'
     ];
 
     /**
@@ -40,4 +44,25 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function getLevel()
+    {
+        switch ($this->id_level) {
+            case 1:
+                return 'admin';
+                break;
+
+            case 2:
+                return 'dokter';
+                break;
+
+            case 3:
+                return 'kasir';
+                break;
+
+            default:
+                return null;
+                break;
+        }
+    }
 }
