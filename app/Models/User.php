@@ -2,10 +2,11 @@
 
 namespace App\Models;
 
+use App\Models\Level;
+use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable
 {
@@ -47,22 +48,7 @@ class User extends Authenticatable
 
     public function getLevel()
     {
-        switch ($this->id_level) {
-            case 1:
-                return 'admin';
-                break;
-
-            case 2:
-                return 'dokter';
-                break;
-
-            case 3:
-                return 'kasir';
-                break;
-
-            default:
-                return null;
-                break;
-        }
+        $level = Level::select(['nama'])->where('id', $this->id_level)->first();
+        return $level->nama;
     }
 }
