@@ -21,9 +21,7 @@ class LevelChecker
             return redirect()->route('login');
         }
 
-        $user = Auth::user();
-
-        if($user->getLevel() === $level)
+        if(strtolower(session('level')) === strtolower($level))
             return $next($request);
         return abort(403);
     }

@@ -45,10 +45,4 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
-
-    public function getLevel()
-    {
-        $level = Level::select(['nama'])->where('id', $this->id_level)->first();
-        return $level->nama;
-    }
 }

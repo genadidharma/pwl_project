@@ -26,7 +26,7 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         Blade::if('level', function($value){
-            return auth()->user()->getLevel() == $value;
+            return strtolower(session('level')) == strtolower($value);
         });
     }
 }
