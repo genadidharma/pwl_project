@@ -20,23 +20,37 @@
     </div>
     <section class="section">
         <div class="card">
+            @if(session('message'))
+            <script>
+                toast('{{session("error")}}', '{{session("message")}}')
+            </script>
+            @endif
+
             <a href="{{route('kategori-barang.create')}}" class="btn btn-primary ms-auto m-3">Tambah</a>
             <div class="card-body">
                 <table class="table table-striped" id="table1">
                     <thead>
                         <tr>
+                            <th>No.</th>
                             <th width="80%">Nama</th>
                             <th></th>
                         </tr>
                     </thead>
                     <tbody>
+                        @foreach($list_kategori_barang as $index => $kategori_barang)
                         <tr>
-                            <td>Graiden</td>
+                            <td>{{$index += 1}}</td>
+                            <td>{{$kategori_barang->nama}}</td>
                             <td>
-                                <a href="#" class="btn-sm btn-warning">Ubah</a>
-                                <a href="#" class="btn-sm btn-outline-danger">Hapus</a>
+                                <form action="{{route('kategori-barang.destroy', $kategori_barang->id)}}" method="post">
+                                    <a href="{{route('kategori-barang.edit', $kategori_barang->id)}}" class="btn-sm btn-warning">Ubah</a>
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn-sm btn-outline-danger border-0" onclick="swalConfirm(event, this)">Hapus</button>
+                                </form>
                             </td>
                         </tr>
+                        @endforeach
                     </tbody>
                 </table>
             </div>
@@ -44,5 +58,4 @@
 
     </section>
 </div>
-
 @endsection

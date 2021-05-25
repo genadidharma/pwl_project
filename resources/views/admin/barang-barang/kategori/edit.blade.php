@@ -11,7 +11,7 @@
             <div class="col-12 col-md-6 order-md-2 order-first">
                 <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
                     <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="{{route('dashboard')}}">Dashboard</a></li>
+                        <li class="breadcrumb-item"><a href="{{route('admin.dashboard')}}">Dashboard</a></li>
                         <li class="breadcrumb-item"> <a href="{{route('kategori-barang.index')}}">Kategori Barang</a></li>
                         <li class="breadcrumb-item active" aria-current="page">Ubah</li>
                     </ol>
@@ -27,10 +27,12 @@
             </div>
 
             <div class="card-body">
-                <form action="" method="post">
+                <form action="{{route('kategori-barang.update', $kategori_barang->id)}}" method="post">
+                    @csrf
+                    @method('PUT')
                     <div class="form-group">
                         <label for="basicInput">Nama <span class="text-danger">*</span></label>
-                        <input type="text" class="form-control" id="basicInput" name="nama" placeholder="Masukan Nama">
+                        <input type="text" class="form-control @error('nama') is-invalid @enderror" id="basicInput" name="nama" value="{{$kategori_barang->nama}}" placeholder="Masukan Nama" autofocus required>
                     </div>
                     <input type="submit" value="Ubah" class="btn btn-primary float-end mt-3">
                 </form>

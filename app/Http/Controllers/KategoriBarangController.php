@@ -2,10 +2,19 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\KategoriBarang;
 use Illuminate\Http\Request;
 
 class KategoriBarangController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('nocache')->only([
+            'index'
+        ]);
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -13,7 +22,9 @@ class KategoriBarangController extends Controller
      */
     public function index()
     {
-        return view('admin.barang-barang.kategori.index');
+        $list_kategori_barang = KategoriBarang::orderBy('id', 'desc')
+            ->get();
+        return view('admin.barang-barang.kategori.index', compact('list_kategori_barang'));
     }
 
     /**
@@ -23,7 +34,7 @@ class KategoriBarangController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.barang-barang.kategori.create');
     }
 
     /**
@@ -34,7 +45,15 @@ class KategoriBarangController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'nama' => 'required|max:30|unique:kategori_barang'
+        ]);
+
+        KategoriBarang::create($request->all());
+
+        return redirect()->route('kategori-barang.index')
+            ->with('error', false)
+            ->with('message', 'Kategori Barang baru berhasil ditambahkan!');
     }
 
     /**
@@ -56,7 +75,8 @@ class KategoriBarangController extends Controller
      */
     public function edit($id)
     {
-        //
+        $kategori_barang = KategoriBarang::find($id);
+        return view('admin.barang-barang.kategori.edit', compact('kategori_barang'));
     }
 
     /**
@@ -68,7 +88,16 @@ class KategoriBarangController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'nama' => 'required|max:30|unique:kategori_barang'
+        ]);
+
+        KategoriBarang::find($id)
+            ->update($request->all());
+
+        return redirect()->route('kategori-barang.index')
+            ->with('error', false)
+            ->with('message', 'Kategori Barang berhasil diubah!');
     }
 
     /**
@@ -79,6 +108,11 @@ class KategoriBarangController extends Controller
      */
     public function destroy($id)
     {
-        //
+        KategoriBarang::find($id)
+            ->delete();
+
+        return redirect()->route('kategori-barang.index')
+            ->with('error', false)
+            ->with('message', 'Kategori Barang berhasil dihapus!');
     }
 }
