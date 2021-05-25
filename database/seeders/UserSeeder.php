@@ -19,7 +19,7 @@ class UserSeeder extends Seeder
             [
                 'nama' => 'Genadi Dharma',
                 'username' => 'genadi',
-                'email' => 'genadidharma@gmail.com',
+                'email' => 'genadi.alba@gmail.com',
                 'password' => Hash::make('12345678'),
                 'remember_token' => NULL,
                 'id_level' => '1',
@@ -27,7 +27,7 @@ class UserSeeder extends Seeder
             [
                 'nama' => 'Annisa Wahyu M',
                 'username' => 'annisawm',
-                'email' => 'annisawm@gmail.com',
+                'email' => 'annisawm200601@gmail.com',
                 'password' => Hash::make('12345678'),
                 'remember_token' => NULL,
                 'id_level' => '2',
@@ -35,7 +35,7 @@ class UserSeeder extends Seeder
             [
                 'nama' => 'Ruby Jane',
                 'username' => 'jane',
-                'email' => 'r.jane@gmail.com',
+                'email' => '1941720146@student.polinema.ac.id',
                 'password' => Hash::make('12345678'),
                 'remember_token' => NULL,
                 'id_level' =>'3',
