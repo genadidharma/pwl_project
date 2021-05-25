@@ -2,10 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class DokterController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('nocache')->only([
+            'index'
+        ]);
+    }
+    
     /**
      * Display a listing of the resource.
      *
@@ -13,7 +21,8 @@ class DokterController extends Controller
      */
     public function index()
     {
-        return view('admin.pegawai.dokter.index');
+        $data = User::where('id_level', 2) -> orderBy('id', 'desc') -> get();
+        return view('admin.pegawai.dokter.index', compact('data'));
     }
 
     /**
@@ -23,7 +32,7 @@ class DokterController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.pegawai.dokter.create');
     }
 
     /**
@@ -34,7 +43,23 @@ class DokterController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'nama' => 'required|max:50',
+            'email' => 'required|email|unique:user',
+            'username' => 'required|unique:user',
+            'password' => 'required|min:8',
+        ]);
+
+        User::create(['nama'=>$request->get('nama'),
+                    'email'=>$request->get('email'),
+                    'username'=>$request->get('username'),
+                    'password'=>$request->get('password'),
+                    'id_level'=>2]);
+
+
+        return redirect()->route('dokter.index')
+            ->with('error', false)
+            ->with('message', 'Data berhasil ditambahkan!');
     }
 
     /**
@@ -56,7 +81,8 @@ class DokterController extends Controller
      */
     public function edit($id)
     {
-        //
+        $dokter = User::find($id);
+        return view('admin.pegawai.dokter.edit', compact('dokter'));
     }
 
     /**
@@ -68,7 +94,16 @@ class DokterController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'nama' => 'required|max:50',     
+        ]);
+        
+            User::find($id)
+                    ->update(['nama'=>$request->get('nama')]);
+        
+                return redirect()->route('dokter.index')
+                    ->with('error', false)
+                    ->with('message', 'Data berhasil diubah!');
     }
 
     /**
@@ -79,6 +114,11 @@ class DokterController extends Controller
      */
     public function destroy($id)
     {
-        //
+        User::find($id)
+            ->delete();
+
+        return redirect()->route('dokter.index')
+            ->with('error', false)
+            ->with('message', 'Data berhasil dihapus!');
     }
 }
