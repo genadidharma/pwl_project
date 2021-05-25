@@ -16,8 +16,12 @@
     <link rel="stylesheet" href="{{asset('assets/vendors/choices.js/choices.min.css')}}" />
     <link href="https://unpkg.com/filepond/dist/filepond.css" rel="stylesheet">
     <link href="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{asset('assets/vendors/toastify/toastify.css')}}">
     <link rel="stylesheet" href="{{asset('assets/css/app.css')}}">
     <link rel="shortcut icon" href="{{asset('assets/images/favicon.svg')}}" type="image/x-icon">
+
+    <script src="{{asset('assets/vendors/toastify/toastify.js')}}"></script>
+    <script src="{{asset('assets/js/extensions/toastify.js')}}"></script>
 </head>
 
 <body>
@@ -39,7 +43,7 @@
                     <ul class="menu">
                         <li class="sidebar-title">Menu</li>
 
-                        @if(auth()->user()->getLevel() === 'admin')
+                        @level('admin')
                         <li class="sidebar-item {{ request()->is('admin/dashboard') ? 'active' : ''}}">
                             <a href="{{route('admin.dashboard')}}" class='sidebar-link'>
                                 <i class="bi bi-grid-fill"></i>
@@ -53,10 +57,10 @@
                                 <span>Pegawai</span>
                             </a>
                             <ul class="submenu {{ request()->is('admin/pegawai/*') ? 'active' : ''}}">
-                                <li class="submenu-item {{ request()->routeIs('dokter.index') ? 'active' : ''}}">
+                                <li class="submenu-item {{ request()->routeIs('dokter.*') ? 'active' : ''}}">
                                     <a href="{{route('dokter.index')}}">Dokter</a>
                                 </li>
-                                <li class="submenu-item {{ request()->routeIs('kasir.index') ? 'active' : ''}}">
+                                <li class="submenu-item {{ request()->routeIs('kasir.*') ? 'active' : ''}}">
                                     <a href="{{route('kasir.index')}}">Kasir</a>
                                 </li>
                             </ul>
@@ -68,36 +72,36 @@
                                 <span>Barang</span>
                             </a>
                             <ul class="submenu {{ request()->is('admin/barang-barang/*') ? 'active' : ''}}">
-                                <li class="submenu-item {{ request()->routeIs('kategori-barang.index') ? 'active' : ''}}">
+                                <li class="submenu-item {{ request()->routeIs('kategori-barang.*') ? 'active' : ''}}">
                                     <a href="{{route('kategori-barang.index')}}">Kategori Barang</a>
                                 </li>
-                                <li class="submenu-item {{ request()->routeIs('barang.index') ? 'active' : ''}}">
+                                <li class="submenu-item {{ request()->routeIs('barang.*') ? 'active' : ''}}">
                                     <a href="{{route('barang.index')}}">Barang</a>
                                 </li>
-                                <li class="submenu-item {{ request()->routeIs('stok.index') ? 'active' : ''}}">
+                                <li class="submenu-item {{ request()->routeIs('stok.*') ? 'active' : ''}}">
                                     <a href="{{route('stok.index')}}">Stok</a>
                                 </li>
                             </ul>
                         </li>
-                        @endif
+                        @endlevel
 
-                        @if(auth()->user()->getLevel() === 'admin' || auth()->user()->getLevel() === 'dokter')
+                        @unlesslevel('kasir')
                         <li class="sidebar-item">
                             <a href="index.html" class='sidebar-link'>
                                 <i class="bi bi-binoculars-fill"></i>
                                 <span>Pemeriksaan</span>
                             </a>
                         </li>
-                        @endif
+                        @endlevel
 
-                        @if(auth()->user()->getLevel() === 'kasir')
+                        @level('kasir')
                         <li class="sidebar-item">
                             <a href="index.html" class='sidebar-link'>
                                 <i class="bi bi-bag-fill"></i>
                                 <span>Transaksi</span>
                             </a>
                         </li>
-                        @endif
+                        @endlevel
 
                     </ul>
                 </div>
@@ -122,13 +126,13 @@
                                         <div class="user-name text-end me-3">
                                             <h6 class="mb-0 text-gray-600">{{auth()->user()->nama}}</h6>
                                             <p class="mb-0 text-sm text-gray-600">
-                                                @if(auth()->user()->getLevel() === 'admin')
-                                                Administrator
-                                                @elseif(auth()->user()->getLevel() === 'dokter')
-                                                Dokter
-                                                @elseif(auth()->user()->getLevel() === 'kasir')
-                                                Kasir
-                                                @endif
+                                                @level('admin')
+                                                    Administrator
+                                                @elselevel('dokter')
+                                                    Dokter
+                                                @elselevel('kasir')
+                                                    Kasir
+                                                @endlevel
                                             </p>
                                         </div>
                                         <div class="user-img d-flex align-items-center">
@@ -140,14 +144,10 @@
                                 </a>
                                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton">
                                     <li>
-                                        <h6 class="dropdown-header">Hello, John!</h6>
+                                        <h6 class="dropdown-header">Halo, {{auth()->user()->nama}}!</h6>
                                     </li>
                                     <li><a class="dropdown-item" href="#"><i class="icon-mid bi bi-person me-2"></i> My
                                             Profile</a></li>
-                                    <li><a class="dropdown-item" href="#"><i class="icon-mid bi bi-gear me-2"></i>
-                                            Settings</a></li>
-                                    <li><a class="dropdown-item" href="#"><i class="icon-mid bi bi-wallet me-2"></i>
-                                            Wallet</a></li>
                                     <li>
                                         <hr class="dropdown-divider">
                                     </li>
@@ -241,6 +241,9 @@
             })
         });
     </script>
+
+    <script src="{{asset('assets/js/extensions/sweetalert2.js')}}"></script>
+    <script src="{{asset('assets/vendors/sweetalert2/sweetalert2.all.min.js')}}"></script>
 
     <script src="{{asset('assets/js/main.js')}}"></script>
 </body>
