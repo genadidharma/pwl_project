@@ -20,6 +20,11 @@
     </div>
     <section class="section">
         <div class="card">
+            @if(session('message'))
+            <script>
+                toast('{{session("error")}}', '{{session("message")}}')
+            </script>
+            @endif
             <a href="{{route('kasir.create')}}" class="btn btn-primary ms-auto m-3">Tambah</a>
             <div class="card-body">
                 <table class="table table-striped" id="table1">
@@ -32,15 +37,22 @@
                         </tr>
                     </thead>
                     <tbody>
+                        @foreach ($data as $kasir)
                         <tr>
-                            <td>Graiden</td>
-                            <td>vehicula.aliquet@semconsequat.co.uk</td>
-                            <td>076 4820 8838</td>
+                            <td>{{$kasir->nama}}</td>
+                            <td>{{$kasir->email}}</td>
+                            <td>{{$kasir->username}}</td>
                             <td>
-                                <a href="#" class="btn-sm btn-warning">Ubah</a>
-                                <a href="#" class="btn-sm btn-outline-danger">Hapus</a>
+
+                                <form action="{{route('kasir.destroy', $kasir->id)}}" method="post">
+                                    <a href="{{route('kasir.edit', $kasir->id)}}" class="btn-sm btn-warning">Ubah</a>
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn-sm btn-outline-danger border-0" onclick="swalConfirm(event, this)">Hapus</button>
+                                </form>
                             </td>
                         </tr>
+                        @endforeach
                     </tbody>
                 </table>
             </div>
