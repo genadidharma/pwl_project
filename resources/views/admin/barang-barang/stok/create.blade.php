@@ -11,7 +11,7 @@
             <div class="col-12 col-md-6 order-md-2 order-first">
                 <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="{{route('dashboard')}}">Dashboard</a></li>
+                        <li class="breadcrumb-item"><a href="{{route('admin.dashboard')}}">Dashboard</a></li>
                         <li class="breadcrumb-item"> <a href="{{route('stok.index')}}">Stok</a></li>
                         <li class="breadcrumb-item active" aria-current="page">Tambah</li>
                     </ol>
@@ -27,22 +27,31 @@
             </div>
 
             <div class="card-body">
-                <form action="" method="post" enctype="multipart/form-data">
+                <form action="{{route('stok.store')}}" method="post">
+                    @csrf
                     <div class="form-group">
                         <label for="basicInput">Nama Barang <span class="text-danger">*</span></label>
-                        <select class="choices form-select" name="nama-barang">
-                            <option value="square">Square</option>
-                            <option value="rectangle">Rectangle</option>
-                            <option value="rombo">Rombo</option>
-                            <option value="romboid">Romboid</option>
-                            <option value="trapeze">Trapeze</option>
-                            <option value="traible">Triangle</option>
-                            <option value="polygon">Polygon</option>
+                        <select class="choices form-select @error('id_barang') is-invalid @enderror" name="id_barang">
+                            @foreach($list_barang as $barang)
+                            <option value="{{$barang->id}}" {{old('id_barang') == $barang->id ? 'selected' : ''}}>{{$barang->nama}}</option>
+                            @endforeach
                         </select>
+
+                        @error('id_barang')
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                        @enderror
                     </div>
                     <div class="form-group">
                         <label for="basicInput">Jumlah <span class="text-danger">*</span></label>
-                        <input type="number" class="form-control" id="basicInput" name="jumlah" placeholder="Masukan Jumlah">
+                        <input type="number" class="form-control @error('jumlah') is-invalid @enderror" id="basicInput" name="jumlah" placeholder="Masukan Jumlah" value="{{old('jumlah')}}">
+
+                        @error('jumlah')
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                        @enderror
                     </div>
                     <input type="submit" value="Tambah" class="btn btn-primary float-end mt-3">
                 </form>

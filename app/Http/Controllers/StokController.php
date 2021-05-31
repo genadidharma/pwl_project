@@ -2,10 +2,19 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Barang;
+use App\Models\Stok;
 use Illuminate\Http\Request;
 
 class StokController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('nocache')->only([
+            'index'
+        ]);
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -13,7 +22,9 @@ class StokController extends Controller
      */
     public function index()
     {
-        return view('admin.barang-barang.stok.index');
+        $list_stok = Stok::with('barang')->orderBy('id', 'desc')
+            ->get();
+        return view('admin.barang-barang.stok.index', compact('list_stok'));
     }
 
     /**
@@ -23,7 +34,8 @@ class StokController extends Controller
      */
     public function create()
     {
-        //
+        $list_barang = Barang::all();
+        return view('admin.barang-barang.stok.create', compact('list_barang'));
     }
 
     /**
@@ -34,7 +46,16 @@ class StokController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'id_barang' => 'required|exists:barang,id',
+            'jumlah' => 'required|numeric|digits_between:1, 11'
+        ]);
+
+        Stok::create($request->all());
+
+        return redirect()->route('stok.index')
+            ->with('error', false)
+            ->with('message', 'Stok Barang baru berhasil ditambahkan!');
     }
 
     /**
@@ -56,7 +77,9 @@ class StokController extends Controller
      */
     public function edit($id)
     {
-        //
+        $list_barang = Barang::all();
+        $stok = Stok::find($id);
+        return view('admin.barang-barang.stok.edit', compact('list_barang', 'stok'));
     }
 
     /**
@@ -68,7 +91,17 @@ class StokController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'id_barang' => 'required|exists:barang,id',
+            'jumlah' => 'required|numeric|digits_between:1, 11'
+        ]);
+
+        Stok::find($id)
+            ->update($request->all());
+
+        return redirect()->route('stok.index')
+            ->with('error', false)
+            ->with('message', 'Stok Barang berhasil diubah!');
     }
 
     /**
@@ -79,6 +112,11 @@ class StokController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Stok::find($id)
+            ->delete();
+
+        return redirect()->route('stok.index')
+            ->with('error', false)
+            ->with('message', 'Stok Barang berhasil dihapus!');
     }
 }
