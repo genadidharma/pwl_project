@@ -20,6 +20,12 @@
     </div>
     <section class="section">
         <div class="card">
+            @if(session('message'))
+            <script>
+                toast('{{session("error")}}', '{{session("message")}}')
+            </script>
+            @endif
+
             <a href="{{route('stok.create')}}" class="btn btn-primary ms-auto m-3">Tambah</a>
             <div class="card-body">
                 <table class="table table-striped" id="table1">
@@ -33,21 +39,27 @@
                         </tr>
                     </thead>
                     <tbody>
+                        @foreach($list_stok as $stok)
                         <tr>
                             <td>
                                 <div class="avatar avatar-lg me-1">
-                                    <img src="{{asset('assets/images/faces/1.jpg')}}" alt="" srcset="">
+                                    <img src="{{asset('storage/' . $stok->barang->gambar)}}" alt="{{$stok->nama}}">
                                 </div>
-                                Graiden
+                                {{$stok->barang->nama}}
                             </td>
-                            <td><b>Obat</b></td>
-                            <td>3</td>
-                            <td>2 Mei 2021</td>
+                            <td><b>{{$stok->barang->kategori->nama}}</b></td>
+                            <td>{{$stok->jumlah}}</td>
+                            <td>{{Carbon\Carbon::parse($stok->created_at)->format('d M Y')}}</td>
                             <td>
-                                <a href="#" class="btn-sm btn-warning">Ubah</a>
-                                <a href="#" class="btn-sm btn-outline-danger">Hapus</a>
+                                <form action="{{route('stok.destroy', $stok->id)}}" method="post">
+                                    <a href="{{route('stok.edit', $stok->id)}}" class="btn-sm btn-warning">Ubah</a>
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn-sm btn-outline-danger border-0" onclick="swalConfirm(event, this)">Hapus</button>
+                                </form>
                             </td>
                         </tr>
+                        @endforeach
                     </tbody>
                 </table>
             </div>
