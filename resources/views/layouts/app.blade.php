@@ -14,8 +14,6 @@
     <link rel="stylesheet" href="{{asset('assets/vendors/bootstrap-icons/bootstrap-icons.css')}}">
     <link rel="stylesheet" href="{{asset('assets/vendors/simple-datatables/style.css')}}">
     <link rel="stylesheet" href="{{asset('assets/vendors/choices.js/choices.min.css')}}" />
-    <link href="https://unpkg.com/filepond/dist/filepond.css" rel="stylesheet">
-    <link href="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css" rel="stylesheet">
     <link rel="stylesheet" href="{{asset('assets/vendors/toastify/toastify.css')}}">
     <link rel="stylesheet" href="{{asset('assets/css/app.css')}}">
     <link rel="shortcut icon" href="{{asset('assets/images/favicon.svg')}}" type="image/x-icon">
@@ -206,41 +204,6 @@
     <script src="https://unpkg.com/filepond-plugin-image-filter/dist/filepond-plugin-image-filter.js"></script>
     <script src="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.js"></script>
     <script src="https://unpkg.com/filepond-plugin-image-resize/dist/filepond-plugin-image-resize.js"></script>
-
-
-    <script src="https://unpkg.com/filepond/dist/filepond.js"></script>
-    <script>
-        // register desired plugins...
-        FilePond.registerPlugin(
-            // validates the size of the file...
-            FilePondPluginFileValidateSize,
-            // validates the file type...
-            FilePondPluginFileValidateType,
-
-            // calculates & dds cropping info based on the input image dimensions and the set crop ratio...
-            FilePondPluginImageCrop,
-            // preview the image file type...
-            FilePondPluginImagePreview,
-            // filter the image file
-            FilePondPluginImageFilter,
-            // corrects mobile image orientation...
-            FilePondPluginImageExifOrientation,
-            // calculates & adds resize information...
-            FilePondPluginImageResize,
-        );
-        // Filepond: Image Crop
-        FilePond.create(document.querySelector('.image-crop-filepond'), {
-            allowImagePreview: true,
-            allowImageFilter: false,
-            allowImageExifOrientation: false,
-            allowImageCrop: true,
-            acceptedFileTypes: ['image/png', 'image/jpg', 'image/jpeg'],
-            fileValidateTypeDetectType: (source, type) => new Promise((resolve, reject) => {
-                // Do custom type detection here and return with promise
-                resolve(type);
-            })
-        });
-    </script>
 
     <script src="{{asset('assets/js/extensions/sweetalert2.js')}}"></script>
     <script src="{{asset('assets/vendors/sweetalert2/sweetalert2.all.min.js')}}"></script>

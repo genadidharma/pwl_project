@@ -11,7 +11,7 @@
             <div class="col-12 col-md-6 order-md-2 order-first">
                 <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="{{route('dashboard')}}">Dashboard</a></li>
+                        <li class="breadcrumb-item"><a href="{{route('admin.dashboard')}}">Dashboard</a></li>
                         <li class="breadcrumb-item"> <a href="{{route('barang.index')}}">Barang</a></li>
                         <li class="breadcrumb-item active" aria-current="page">Tambah</li>
                     </ol>
@@ -27,32 +27,53 @@
             </div>
 
             <div class="card-body">
-                <form action="" method="post" enctype="multipart/form-data">
+                <form action="{{route('barang.store')}}" method="post" enctype="multipart/form-data">
+                    @csrf
                     <div class="form-group">
                         <label for="basicInput">Kategori <span class="text-danger">*</span></label>
-                        <select class="choices form-select">
-                            <option value="square">Square</option>
-                            <option value="rectangle">Rectangle</option>
-                            <option value="rombo">Rombo</option>
-                            <option value="romboid">Romboid</option>
-                            <option value="trapeze">Trapeze</option>
-                            <option value="traible">Triangle</option>
-                            <option value="polygon">Polygon</option>
+                        <select class="choices form-select" name="id_kategori_barang">
+                            @foreach($list_kategori_barang as $kategori_barang)
+                            <option value="{{$kategori_barang->id}}" {{old('id_kategori_barang') == $kategori_barang->id ? 'selected' : ''}}>{{$kategori_barang->nama}}</option>
+                            @endforeach
                         </select>
+
+                        @error('id_kategori_barang')
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                        @enderror
                     </div>
                     <div class="form-group">
                         <label for="basicInput">Nama <span class="text-danger">*</span></label>
-                        <input type="text" class="form-control" id="basicInput" name="nama" placeholder="Masukan Nama">
+                        <input type="text" class="form-control @error('nama') is-invalid @enderror" id="basicInput" name="nama" placeholder="Masukan Nama" value="{{old('nama')}}">
+
+                        @error('id_kategori_barang')
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                        @enderror
                     </div>
                     <div class="form-group">
                         <label for="basicInput">Gambar <span class="text-danger">*</span></label>
-                        <input type="file" class="image-crop-filepond" image-crop-aspect-ratio="1:1" name="gambar">
+                        <input type="file" class="form-control @error('gambar') is-invalid @enderror" image-crop-aspect-ratio="1:1" name="gambar" value="{{old('gambar')}}">
+
+                        @error('gambar')
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                        @enderror
                     </div>
                     <div class="form-group">
                         <label for="basicInput">Harga Satuan <span class="text-danger">*</span></label>
                         <div class="input-group">
                             <span class="input-group-text" id="basic-addon1">Rp</span>
-                            <input type="text" class="form-control" placeholder="Masukan Harga Satuan" id="basicInput" name="harga">
+                            <input type="text" class="form-control @error('harga_satuan') is-invalid @enderror" placeholder="Masukan Harga Satuan" id="basicInput" name="harga_satuan">
+
+                            @error('harga_satuan')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                            @enderror
                         </div>
                     </div>
                     <input type="submit" value="Tambah" class="btn btn-primary float-end mt-3">
