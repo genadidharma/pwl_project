@@ -20,6 +20,12 @@
     </div>
     <section class="section">
         <div class="card">
+            @if(session('message'))
+            <script>
+                toast('{{session("error")}}', '{{session("message")}}')
+            </script>
+            @endif
+
             <a href="{{route('barang.create')}}" class="btn btn-primary ms-auto m-3">Tambah</a>
             <div class="card-body">
                 <table class="table table-striped" id="table1">
@@ -32,20 +38,26 @@
                         </tr>
                     </thead>
                     <tbody>
+                        @foreach($list_barang as $barang)
                         <tr>
                             <td>
                                 <div class="avatar avatar-lg me-1">
-                                    <img src="{{asset('assets/images/faces/1.jpg')}}" alt="" srcset="">
+                                    <img src="{{asset('storage/' . $barang->gambar)}}" alt="{{$barang->nama}}">
                                 </div>
-                                Graiden
+                                {{$barang->nama}}
                             </td>
-                            <td><b>Obat</b></td>
-                            <td>20.000</td>
+                            <td><b>{{$barang->kategori->nama}}</b></td>
+                            <td>{{$barang->harga_satuan}}</td>
                             <td>
-                                <a href="#" class="btn-sm btn-warning">Ubah</a>
-                                <a href="#" class="btn-sm btn-outline-danger">Hapus</a>
+                                <form action="{{route('barang.destroy', $barang->id)}}" method="post">
+                                    <a href="{{route('barang.edit', $barang->id)}}" class="btn-sm btn-warning">Ubah</a>
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn-sm btn-outline-danger border-0" onclick="swalConfirm(event, this)">Hapus</button>
+                                </form>
                             </td>
                         </tr>
+                        @endforeach
                     </tbody>
                 </table>
             </div>
