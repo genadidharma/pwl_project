@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="{{asset('assets/css/bootstrap.css')}}">
 
     <link rel="stylesheet" href="{{asset('assets/vendors/perfect-scrollbar/perfect-scrollbar.css')}}">
+    <link rel="stylesheet" href="{{asset('assets/vendors/iconly/bold.css')}}">
     <link rel="stylesheet" href="{{asset('assets/vendors/bootstrap-icons/bootstrap-icons.css')}}">
     <link rel="stylesheet" href="{{asset('assets/vendors/simple-datatables/style.css')}}">
     <link rel="stylesheet" href="{{asset('assets/vendors/choices.js/choices.min.css')}}" />
@@ -125,11 +126,11 @@
                                             <h6 class="mb-0 text-gray-600">{{auth()->user()->nama}}</h6>
                                             <p class="mb-0 text-sm text-gray-600">
                                                 @level('admin')
-                                                    Administrator
+                                                Administrator
                                                 @elselevel('dokter')
-                                                    Dokter
+                                                Dokter
                                                 @elselevel('kasir')
-                                                    Kasir
+                                                Kasir
                                                 @endlevel
                                             </p>
                                         </div>
@@ -187,6 +188,9 @@
     <script src="{{asset('assets/vendors/perfect-scrollbar/perfect-scrollbar.min.js')}}"></script>
     <script src="{{asset('assets/js/bootstrap.bundle.min.js')}}"></script>
 
+    <script src="{{asset('assets/vendors/apexcharts/apexcharts.js')}}"></script>
+    <script src="{{asset('assets/js/pages/dashboard.js')}}"></script>
+
     <script src="{{asset('assets/vendors/simple-datatables/simple-datatables.js')}}"></script>
 
     <script src="{{asset('assets/vendors/choices.js/choices.min.js')}}"></script>
@@ -194,16 +198,12 @@
         // Simple Datatable
         let table1 = document.querySelector('#table1');
         let dataTable = new simpleDatatables.DataTable(table1);
+
+        let table2 = document.querySelector('#table2')
+        let datataTable = new simpleDatatables.DataTable({
+            searching: false
+        })
     </script>
-
-    <script src="https://unpkg.com/filepond-plugin-file-validate-size/dist/filepond-plugin-file-validate-size.js"></script>
-    <script src="https://unpkg.com/filepond-plugin-file-validate-type/dist/filepond-plugin-file-validate-type.js"></script>
-
-    <script src="https://unpkg.com/filepond-plugin-image-exif-orientation/dist/filepond-plugin-image-exif-orientation.js"></script>
-    <script src="https://unpkg.com/filepond-plugin-image-crop/dist/filepond-plugin-image-crop.js"></script>
-    <script src="https://unpkg.com/filepond-plugin-image-filter/dist/filepond-plugin-image-filter.js"></script>
-    <script src="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.js"></script>
-    <script src="https://unpkg.com/filepond-plugin-image-resize/dist/filepond-plugin-image-resize.js"></script>
 
     <script src="{{asset('assets/js/extensions/sweetalert2.js')}}"></script>
     <script src="{{asset('assets/vendors/sweetalert2/sweetalert2.all.min.js')}}"></script>
