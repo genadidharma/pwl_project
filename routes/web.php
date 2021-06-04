@@ -8,6 +8,7 @@ use App\Http\Controllers\KasirController;
 use App\Http\Controllers\BarangController;
 use App\Http\Controllers\DokterController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\PemeriksaanController;
 use App\Http\Controllers\KategoriBarangController;
 
 /*
@@ -39,6 +40,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'level:admin']], fun
         Route::resource('stok', StokController::class);
     });
 
+    Route::resource('pemeriksaan', PemeriksaanController::class, ['as'=>'admin']);
 });
 
 Auth::routes();
