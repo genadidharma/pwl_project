@@ -86,7 +86,7 @@
 
                         @unlesslevel('kasir')
                         <li class="sidebar-item">
-                            <a href="index.html" class='sidebar-link'>
+                            <a href="{{route('admin.pemeriksaan.index')}}" class='sidebar-link'>
                                 <i class="bi bi-binoculars-fill"></i>
                                 <span>Pemeriksaan</span>
                             </a>
