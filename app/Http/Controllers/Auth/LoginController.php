@@ -37,7 +37,7 @@ class LoginController extends Controller
                 break;
 
             case 'dokter':
-                return '/';
+                return route('dokter.pemeriksaan.index');
                 break;
 
             case 'kasir':

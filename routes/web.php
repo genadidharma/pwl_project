@@ -43,6 +43,10 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'level:admin']], fun
     Route::resource('pemeriksaan', PemeriksaanController::class, ['as'=>'admin']);
 });
 
+Route::group(['prefix' => 'dokter', 'middleware' => ['auth', 'level:dokter']], function () {
+    Route::resource('pemeriksaan', PemeriksaanController::class, ['as'=>'dokter']);
+});
+
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
