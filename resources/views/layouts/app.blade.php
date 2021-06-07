@@ -21,6 +21,7 @@
 
     <script src="{{asset('assets/vendors/toastify/toastify.js')}}"></script>
     <script src="{{asset('assets/js/extensions/toastify.js')}}"></script>
+    <script src="https://unpkg.com/feather-icons"></script>
 </head>
 
 <body>
@@ -84,9 +85,18 @@
                         </li>
                         @endlevel
 
-                        @unlesslevel('kasir')
-                        <li class="sidebar-item">
+                        @level('admin')
+                        <li class="sidebar-item {{ request()->routeIs('admin.pemeriksaan.*') ? 'active' : ''}}">
                             <a href="{{route('admin.pemeriksaan.index')}}" class='sidebar-link'>
+                                <i class="bi bi-binoculars-fill"></i>
+                                <span>Pemeriksaan</span>
+                            </a>
+                        </li>
+                        @endlevel
+
+                        @level('dokter')
+                        <li class="sidebar-item {{ request()->routeIs('dokter.pemeriksaan.*') ? 'active' : ''}}">
+                            <a href="{{route('dokter.pemeriksaan.index')}}" class='sidebar-link'>
                                 <i class="bi bi-binoculars-fill"></i>
                                 <span>Pemeriksaan</span>
                             </a>
@@ -95,7 +105,7 @@
 
                         @level('kasir')
                         <li class="sidebar-item">
-                            <a href="index.html" class='sidebar-link'>
+                            <a href="{{index.html}}" class='sidebar-link'>
                                 <i class="bi bi-bag-fill"></i>
                                 <span>Transaksi</span>
                             </a>
@@ -188,6 +198,8 @@
     <script src="{{asset('assets/vendors/perfect-scrollbar/perfect-scrollbar.min.js')}}"></script>
     <script src="{{asset('assets/js/bootstrap.bundle.min.js')}}"></script>
 
+    <script src="{{asset('assets/js/jquery.min.js')}}"></script>
+
     <script src="{{asset('assets/vendors/apexcharts/apexcharts.js')}}"></script>
     <script src="{{asset('assets/js/pages/dashboard.js')}}"></script>
 
@@ -205,10 +217,19 @@
         })
     </script>
 
+    <script src="{{asset('assets/js/extensions/counternumber.js')}}"></script>
+
     <script src="{{asset('assets/js/extensions/sweetalert2.js')}}"></script>
     <script src="{{asset('assets/vendors/sweetalert2/sweetalert2.all.min.js')}}"></script>
 
+    @stack('scripts')
+
+    <script>
+        feather.replace()
+    </script>
+
     <script src="{{asset('assets/js/main.js')}}"></script>
+
 </body>
 
 </html>

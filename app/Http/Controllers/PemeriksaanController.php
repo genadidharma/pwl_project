@@ -5,8 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Barang;
 use App\Models\User;
 use App\Models\Pemeriksaan;
+use App\Models\ResepObat;
 use Carbon\Carbon;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 
@@ -36,6 +36,7 @@ class PemeriksaanController extends Controller
         $list_pemeriksaan = Pemeriksaan::with('user')
             ->where('tanggal_pemeriksaan', Carbon::today())
             ->where('status', 1)
+            ->orWhere('status', 2)
             ->where('id_user', auth()->user()->id)
             ->orderBy('jam_pemeriksaan')
             ->get();
@@ -100,9 +101,25 @@ class PemeriksaanController extends Controller
      */
     public function show($id)
     {
-        $pasien = Pemeriksaan::find($id);
+        $pemeriksaan = Pemeriksaan::findOrFail($id);
+        $list_obat = Barang::with('kategori')
+            ->withSum('stok', 'jumlah')
+            ->whereHas('kategori', function ($query) {
+                $query->where('nama', 'obat');
+            })
+            ->having('stok_sum_jumlah', '>', 0)
+            ->get();
 
-        return view('dokter.pemeriksaan.show', compact('list_obat'));
+        if ($pemeriksaan->status == 1) {
+            $pemeriksaan->update([
+                'status' => 2
+            ]);
+        }
+
+        if (Carbon::parse($pemeriksaan->tanggal_pemeriksaan) == Carbon::today() && ($pemeriksaan->status == 1 || $pemeriksaan->status == 2)) {
+            return view('dokter.pemeriksaan.show', compact('pemeriksaan', 'list_obat'));
+        }
+        abort(404);
     }
 
     /**
@@ -143,14 +160,29 @@ class PemeriksaanController extends Controller
             return redirect()->route('admin.pemeriksaan.index')
                 ->with('error', false)
                 ->with('message', 'Data berhasil diubah!');
-        }
-        
-        Pemeriksaan::find($id)
-            ->update(['status' => 2]);
+        } else if (session('level') == 'dokter' && request()->routeIs('dokter.pemeriksaan.update')) {
+            if ($request->get('submit')) {
+                $request->validate([
+                    'obat.*.id_barang' => 'required',
+                    'obat.*.jumlah' => 'required|numeric|digits_between:1, 11'
+                ]);
 
-        return redirect()->route('dokter.pemeriksaan.index')
-            ->with('error', false)
-            ->with('message', 'Pemeriksaan selesai!');
+                foreach ($request->obat as $value) {
+                    ResepObat::create([
+                        'id_pemeriksaan' => $id,
+                        'id_barang' => json_decode($value['id_barang'])->id,
+                        'jumlah' => $value['jumlah']
+                    ]);
+                }
+            }
+
+            Pemeriksaan::find($id)
+                ->update(['status' => 3]);
+
+            return redirect()->route('dokter.pemeriksaan.index')
+                ->with('error', false)
+                ->with('message', 'Pemeriksaan selesai!');
+        }
     }
 
     /**

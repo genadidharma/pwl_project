@@ -47,7 +47,7 @@
                         <label for="basicInput">Nama <span class="text-danger">*</span></label>
                         <input type="text" class="form-control @error('nama') is-invalid @enderror" id="basicInput" name="nama" placeholder="Masukan Nama" value="{{old('nama')}}">
 
-                        @error('id_kategori_barang')
+                        @error('nama')
                         <span class="invalid-feedback" role="alert">
                             <strong>{{ $message }}</strong>
                         </span>

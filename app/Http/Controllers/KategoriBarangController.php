@@ -24,6 +24,7 @@ class KategoriBarangController extends Controller
     {
         $list_kategori_barang = KategoriBarang::orderBy('id', 'desc')
             ->get();
+            
         return view('admin.barang-barang.kategori.index', compact('list_kategori_barang'));
     }
 

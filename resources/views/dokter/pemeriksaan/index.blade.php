@@ -21,7 +21,7 @@
     <section class="section">
         <div class="card">
             <div class="card-header">
-                <h4>Pasien Berikutnya</h4>
+                <h4>Pasien {{$pasien_berikutnya->status == 1 ? 'Berikutnya' : 'Saat ini'}}</h4>
             </div>
             <div class="card-body">
                 <div class="row">
@@ -33,7 +33,7 @@
                         <h4>{{$pasien_berikutnya->nama_pemilik_hewan}}</h4>
                         <p class="fs-6 text-grey">{{$pasien_berikutnya->no_telp_pemilik_hewan}}</p>
                         <div class="col-2">
-                            <a href="{{route('dokter.pemeriksaan.show', $pasien_berikutnya->id)}}" class="btn btn-md btn-primary">Periksa</a>
+                            <a href="{{route('dokter.pemeriksaan.show', $pasien_berikutnya->id)}}" class="btn btn-md btn-primary">{{$pasien_berikutnya->status == 1 ? 'Periksa' : 'Lanjut Periksa'}}</a>
                         </div>
                     </div>
                 </div>
