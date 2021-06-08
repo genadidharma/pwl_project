@@ -2,7 +2,6 @@
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\KategoriBarang;
 use App\Http\Controllers\StokController;
 use App\Http\Controllers\KasirController;
 use App\Http\Controllers\BarangController;
@@ -10,6 +9,10 @@ use App\Http\Controllers\DokterController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\PemeriksaanController;
 use App\Http\Controllers\KategoriBarangController;
+use App\Http\Controllers\TransaksiBarangController;
+use App\Http\Controllers\TransaksiObatController;
+use App\Models\TransaksiBarang;
+use App\Models\TransaksiObat;
 
 /*
 |--------------------------------------------------------------------------
@@ -45,6 +48,13 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'level:admin']], fun
 
 Route::group(['prefix' => 'dokter', 'middleware' => ['auth', 'level:dokter']], function () {
     Route::resource('pemeriksaan', PemeriksaanController::class, ['as'=>'dokter']);
+});
+
+Route::group(['prefix' => 'kasir', 'middleware' => ['auth', 'level:kasir']], function () {
+    Route::prefix('transaksi')->group(function(){
+        Route::resource('barang', TransaksiBarangController::class, ['as'=>'transaksi']);
+        Route::resource('obat', TransaksiObatController::class, ['as'=>'transaksi']);
+    });
 });
 
 Auth::routes();

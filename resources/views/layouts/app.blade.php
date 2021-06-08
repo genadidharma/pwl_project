@@ -104,11 +104,19 @@
                         @endlevel
 
                         @level('kasir')
-                        <li class="sidebar-item">
-                            <a href="{{index.html}}" class='sidebar-link'>
+                        <li class="sidebar-item has-sub {{ request()->is('kasir/transaksi/*') ? 'active' : ''}}">
+                            <a href="#" class='sidebar-link'>
                                 <i class="bi bi-bag-fill"></i>
                                 <span>Transaksi</span>
                             </a>
+                            <ul class="submenu {{ request()->is('kasir/transaksi/obat/*') ? 'active' : ''}} d-block">
+                                <li class="submenu-item {{ request()->routeIs('transaksi.obat.*') ? 'active' : ''}}">
+                                    <a href="{{route('transaksi.obat.index')}}">Transaksi Obat</a>
+                                </li>
+                                <li class="submenu-item {{ request()->routeIs('transaksi.barang.*') ? 'active' : ''}}">
+                                    <a href="{{route('transaksi.barang.index')}}">Transaksi Barang</a>
+                                </li>
+                            </ul>
                         </li>
                         @endlevel
 
@@ -212,7 +220,7 @@
         let dataTable = new simpleDatatables.DataTable(table1);
 
         let table2 = document.querySelector('#table2')
-        let datataTable = new simpleDatatables.DataTable({
+        let datataTable = new simpleDatatables.DataTable(table2, {
             searching: false
         })
     </script>

@@ -41,7 +41,7 @@ class LoginController extends Controller
                 break;
 
             case 'kasir':
-                return '/';
+                return route('transaksi.obat.index');
                 break;
 
             default:

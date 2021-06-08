@@ -16,4 +16,8 @@ class ResepObat extends Model
         'id_barang',
         'jumlah'
     ];
+
+    public function barang(){
+        return $this->belongsTo(Barang::class, 'id_barang');
+    }
 }
