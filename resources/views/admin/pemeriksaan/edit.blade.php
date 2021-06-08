@@ -32,7 +32,7 @@
                     @method('PUT')
                     <div class="form-group">
                         <label for="basicInput">Tanggal <span class="text-danger">*</span></label>
-                        <input type="date" class="form-control @error('tanggal') is-invalid @enderror" id="basicInput" name="tanggal" value="{{$pemeriksaan->tanggal}}" placeholder="Masukan Tanggal Pemeriksaan">
+                        <input type="date" class="form-control @error('tanggal') is-invalid @enderror" id="basicInput" name="tanggal" value="{{\Carbon\Carbon::parse($pemeriksaan->tanggal_pemeriksaan)->format('Y-m-d')}}" placeholder="Masukan Tanggal Pemeriksaan">
                         @error('tanggal')
                         <span class="invalid-feedback" role="alert">
                             <strong>{{ $message }}</strong>
@@ -41,14 +41,15 @@
                     </div>
                     <div class="form-group">
                         <label for="basicInput">Jam <span class="text-danger">*</span></label>
-                        <input type="time" class="form-control @error('jam') is-invalid @enderror" id="basicInput" name="jam" value="{{$pemeriksaan->jam}}" placeholder="Masukan Jam Pemeriksaan">
+                        <input type="time" class="form-control @error('jam') is-invalid @enderror" id="basicInput" name="jam" value="{{\Carbon\Carbon::parse($pemeriksaan->jam_pemeriksaan)->format('H:i:s')}}" placeholder="Masukan Jam Pemeriksaan">
                         @error('jam')
                         <span class="invalid-feedback" role="alert">
                             <strong>{{ $message }}</strong>
                         </span>
                         @enderror
                     </div>
-                    <input type="submit" value="Tambah" class="btn btn-primary float-end mt-3">
+                    <input type="hidden" name="dokter" value="{{$pemeriksaan->id_user}}">
+                    <input type="submit" value="Ubah" class="btn btn-primary float-end mt-3">
                 </form>
             </div>
         </div>

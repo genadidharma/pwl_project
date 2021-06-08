@@ -43,18 +43,18 @@
                         @foreach ($list_pemeriksaan as $index=>$pemeriksaan) 
                         <tr>
                             <td>{{$index+=1}}</td>
-                            <td>{{Carbon\Carbon::parse($pemeriksaan->tanggal_pemeriksaan)->format('d M Y')}}</td>
-                            <td>{{$pemeriksaan->jam_pemeriksaan}}</td>
+                            <td>{{Carbon\Carbon::parse($pemeriksaan->tanggal_pemeriksaan)->format('D, d M')}}</td>
+                            <td>{{Carbon\Carbon::parse($pemeriksaan->jam_pemeriksaan)->format('H:i')}}</td>
                             <td>{{$pemeriksaan->nama_pemilik_hewan}}</td>
                             <td>{{$pemeriksaan->no_telp_pemilik_hewan}}</td>
                             <td>{{$pemeriksaan->user->nama}}</td>
                             <td>
                                 @if ($pemeriksaan->status == 1)
-                                    {{'Terdaftar'}}
+                                    <span class="badge bg-light-danger"> Terdaftar </span>
                                 @elseif ($pemeriksaan->status == 2)
-                                    {{'Dalam Pemeriksaan'}}
+                                    <span class="badge bg-light-warning"> Dalam Pemeriksaan </span>
                                 @elseif ($pemeriksaan->status == 3)
-                                    {{'Selesai'}}
+                                    <span class="badge bg-light-primary"> Selesai </span>
                                 @endif
                             </td>
                             <td>                                

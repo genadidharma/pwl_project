@@ -70,9 +70,18 @@ class PemeriksaanController extends Controller
             'jam' => [
                 'required',
                 Rule::unique('pemeriksaan', 'jam_pemeriksaan')
-                    ->where('tanggal_pemeriksaan', $request->get('tanggal'))
-                    ->where('id_user', $request->get('dokter'))
+                    ->where(function ($query) use ($request) {
+                        return $query
+                            ->where('jam_pemeriksaan', $request->get('jam'))
+                            ->orWhere('tanggal_pemeriksaan', $request->get('tanggal'))
+                            ->whereBetween('jam_pemeriksaan', [
+                                Carbon::parse($request->get('jam'))->addMinute()->format('H:i:s'),
+                                Carbon::parse($request->get('jam'))->addMinutes(30)->format('H:i:s'),
+                            ])
+                            ->where('id_user', $request->get('dokter'));
+                    })
             ],
+
             'pemilik-hewan' => 'required|max:50',
             'no-telepon' => 'required|between:10,13',
             'dokter' => 'required|exists:user,id',
@@ -149,13 +158,22 @@ class PemeriksaanController extends Controller
                 'jam' => [
                     'required',
                     Rule::unique('pemeriksaan', 'jam_pemeriksaan')
-                        ->where('tanggal_pemeriksaan', $request->get('tanggal'))
-                        ->where('id_user', $request->get('dokter'))
-                ],
+                    ->where(function ($query) use ($request) {
+                        return $query
+                            ->where('jam_pemeriksaan', $request->get('jam'))
+                            ->orWhere('tanggal_pemeriksaan', $request->get('tanggal'))
+                            ->whereBetween('jam_pemeriksaan', [
+                                Carbon::parse($request->get('jam'))->addMinute()->format('H:i:s'),
+                                Carbon::parse($request->get('jam'))->addMinutes(30)->format('H:i:s'),
+                            ])
+                            ->where('id_user', $request->get('dokter'));
+                    })
+            ],
+
             ]);
 
             Pemeriksaan::find($id)
-                ->update(['tanggal' => $request->get('tanggal'), 'jam' => $request->get('jam')]);
+                ->update(['tanggal_pemeriksaan' => $request->get('tanggal'), 'jam_pemeriksaan' => $request->get('jam')]);
 
             return redirect()->route('admin.pemeriksaan.index')
                 ->with('error', false)
