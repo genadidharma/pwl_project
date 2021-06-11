@@ -1,44 +1,24 @@
 @extends('layouts.app')
 
 @section('content')
-<section class="section">
-    <div class="card">
-        <div class="card-header">
-            <h4>Tebus Resep Obat</h4>
-        </div>
-        <div class="card-body">
-            <form action="{{route('transaksi.obat.create')}}" method="get" role="search">
-                <div class="form-group">
-                    <label for="basicInput">Pemeriksaan <span class="text-danger">*</span></label>
-                    <select class="form-select choices" name="id_pemeriksaan">
-                        @isset($list_pemeriksaan)
-                        @foreach($list_pemeriksaan as $pemeriksaan)
-                        <option value="{{$pemeriksaan->id}}" {{old('id_pemeriksaan') == $pemeriksaan->id || request()->query('id_pemeriksaan') == $pemeriksaan->id ? 'selected' : ''}}>{{\Carbon\Carbon::parse($pemeriksaan->tanggal_pemeriksaan)->format('d M y') . ' | ' . $pemeriksaan->no_telp_pemilik_hewan . ' - ' . $pemeriksaan->nama_pemilik_hewan}}</option>
-                        @endforeach
-                        @endisset
-                    </select>
 
-                    @error('id_pemeriksaan')
-                    <span class="invalid-feedback" role="alert">
-                        <strong>{{ $message }}</strong>
-                    </span>
-                    @enderror
-                </div>
-                <div class="buttons float-end mt-3">
-                    <input type="submit" value="Tampilkan Obat" class="btn btn-outline-success">
-                </div>
-            </form>
-        </div>
-    </div>
-</section>
+@if ($errors->any())
+<div class="alert alert-danger">
+    <strong>Whoops!</strong> There were some problems with your input.<br><br>
+    <ul>
+        @foreach ($errors->all() as $error)
+        <li>{{ $error }}</li>
+        @endforeach
+    </ul>
+</div>
+@endif
 
-@if($list_obat->isNotEmpty())
 <section class="section">
     <div class="row">
         <div class="col-xl-8 col-md-12">
             <div class="card">
                 <div class="card-header">
-                    <h4>Resep Obat</h4>
+                    <h4>Daftar Barang</h4>
                 </div>
                 <div class="card-body">
                     <table class="table table-striped" id="table2">
@@ -51,14 +31,12 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach($list_obat as $index => $obat)
                             <tr>
-                                <td>{{$index+=1}}</td>
-                                <td>{{$obat->barang->nama}}</td>
-                                <td>{{$obat->jumlah}}</td>
-                                <td>{{$obat->barang->harga_satuan}}</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
                             </tr>
-                            @endforeach
                         </tbody>
                     </table>
                     <button type="button" class="btn btn-primary float-end mt-3" data-bs-toggle="modal" data-bs-target="#pembayaranForm">Bayar</button>
@@ -103,18 +81,21 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="form-group">
-                                        <label for="basicInput">Uang <span class="text-danger">*</span></label>
-                                        <input type="number" class="form-control input-number @error('jumlah') is-invalid @enderror" id="basicInput" name="uang" placeholder="Masukan Uang">
-                                        @error('uang')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                        @enderror
-                                    </div>
-                                    <div class="modal-footer">
-                                        <input type="submit" name="submit" value="Bayar" class="btn btn-primary" data-bs-dismiss="modal">
-                                    </div>
+                                    <form action="{{route('transaksi.barang.store')}}" method="post">
+                                        @csrf
+                                        <div class="form-group">
+                                            <label for="basicInput">Uang <span class="text-danger">*</span></label>
+                                            <input type="number" class="form-control input-number @error('jumlah') is-invalid @enderror" id="basicInput" name="uang" placeholder="Masukan Uang">
+                                            @error('uang')
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                            @enderror
+                                        </div>
+                                        <div class="modal-footer">
+                                            <input type="submit" name="bayar" value="Bayar" class="btn btn-primary">
+                                        </div>
+                                    </form>
                                 </div>
                             </div>
                         </div>
@@ -162,6 +143,4 @@
         </div>
     </div>
 </section>
-@endif
-
 @endsection

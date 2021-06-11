@@ -6,7 +6,7 @@
         <div class="col-xl-8 col-md-12">
             <div class="card">
                 <div class="card-header d-flex align-items-between">
-                    <h4 class="align-self-center">Resep Obat</h4>
+                    <h4 class="align-self-center">Daftar Barang</h4>
                     <a href="{{route('transaksi.obat.create')}}" class="btn btn-danger ms-auto m-3"> <i class="icon-mid bi-file-earmark-arrow-down"></i> Download PDF</a>
                 </div>
                 <div class="card-body">

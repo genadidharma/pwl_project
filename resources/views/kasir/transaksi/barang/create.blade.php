@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<div>
+<section>
     <div class="card">
         <div class="card-header">
             <h4 class="card-title">Tambah Transaksi Barang</h4>
@@ -10,9 +10,8 @@
 
         <div class="card-body">
             @if($list_barang->isNotEmpty())
-            <form action="{{route('transaksi.obat.create')}}" method="post">
+            <form action="{{route('transaksi.barang.store')}}" method="post">
                 @csrf
-                @method('PUT')
                 <table class="table table-no-border" id="table">
                     <tr>
                         <td>
@@ -64,13 +63,13 @@
                 </table>
                 <div class="buttons float-end mt-3">
                     <button type="button" class="btn btn-outline-success" id="add_more" onclick="addMoreClick()">Tambah Barang Lain</button>
-                    <input type="submit" name="submit" value="Selesai" class="btn btn-primary">
+                    <input type="submit" class="btn btn-primary" value="Checkout">
                 </div>
             </form>
             @endif
         </div>
     </div>
-</div>
+</section>
 @endsection
 
 @push('scripts')
@@ -108,7 +107,7 @@
                                             <i data-feather="minus"></i>
                                         </button>
                                     </div>
-                                    <input type="number" class="form-control input-number @error('jumlah') is-invalid @enderror" id="basicInput" name="barang[${i}][jumlah]" value="1" min="1" max= readonly onfocus="onInputNumberFocusIn(this)" onchange="onInputNumberChange(this)" onkeydown="onInputNumberKeydown(event)">
+                                    <input type="number" class="form-control input-number @error('jumlah') is-invalid @enderror" id="basicInput" name="barang[${i}][jumlah]" value="1" min="1" max readonly onfocus="onInputNumberFocusIn(this)" onchange="onInputNumberChange(this)" onkeydown="onInputNumberKeydown(event)">
                                     <div class="input-group-btn">
                                         <button type="button" class="btn icon btn-secondary btn-number" data-type="plus" data-field="barang[${i}][jumlah]" onclick="onBtnNumberClick(event, this)">
                                             <i data-feather="plus"></i>

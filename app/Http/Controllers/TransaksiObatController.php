@@ -25,21 +25,20 @@ class TransaksiObatController extends Controller
      */
     public function create(Request $request)
     {
-        $list_obat = [];
+        $list_obat = collect();
 
         if ($request->get('id_pemeriksaan')) {
             $list_obat = ResepObat::with('barang')
-                ->where(function ($query) use ($request) {
-                    if (($id_pemeriksaan = $request->get('id_pemeriksaan'))) {
-                        $query->where('id_pemeriksaan', $id_pemeriksaan)
-                            ->get();
-                    }
-                })
+                ->where('id_pemeriksaan', $request->get('id_pemeriksaan'))
                 ->get();
-            return view('kasir.transaksi.obat.create', compact('list_obat'));
         }
 
-        $list_pemeriksaan = Pemeriksaan::where('status', 3)
+        $list_pemeriksaan = Pemeriksaan::with('resep_obat')
+            ->whereHas('resep_obat', function ($query) {
+                $query->withCount('barang')
+                    ->having('barang_count', '>', 0);
+            })
+            ->where('status', 3)
             ->orderBy('tanggal_pemeriksaan', 'desc')
             ->orderBy('jam_pemeriksaan', 'asc')
             ->get();
@@ -66,7 +65,7 @@ class TransaksiObatController extends Controller
      */
     public function show($id)
     {
-        //
+        return view('kasir.transaksi.obat.show');
     }
 
     /**

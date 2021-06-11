@@ -16,4 +16,10 @@ class TransaksiBarang extends Model
         'id_barang',
         'jumlah'
     ];
+
+    public function transaksi()
+    {
+        return $this->belongsToMany(Transaksi::class, 'transaksi_barang', 'id_transaksi', 'id')->withPivot('jumlah');
+    }
+
 }

@@ -11,13 +11,21 @@ class Transaksi extends Model
 
     protected $table = 'transaksi';
 
+    protected $fillable = [
+        'id_user',
+        'id_transaksi',
+        'total_harga',
+        'uang',
+        'status'
+    ];
+
     public function obat()
     {
-        return $this->belongsToMany(TransaksiObat::class, 'id_resep_obat', 'id_transaksi');
+        return $this->belongsToMany(ResepObat::class, 'transaksi_obat', 'id_resep_obat', 'id_transaksi');
     }
 
     public function barang()
     {
-        return $this->belongsToMany(TransaksiBarang::class, 'id_transaksi', 'id_barang')->withPivot('jumlah');
+        return $this->belongsToMany(Barang::class, 'transaksi_barang', 'id_transaksi', 'id_barang')->withPivot('jumlah');
     }
 }

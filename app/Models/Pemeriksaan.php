@@ -23,4 +23,8 @@ class Pemeriksaan extends Model
     public function user(){
         return $this->belongsTo(User::class, 'id_user');
     }
+
+    public function resep_obat(){
+        return $this->hasMany(ResepObat::class, 'id_pemeriksaan');
+    }
 }
