@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Barang;
+use App\Models\Transaksi;
 use Illuminate\Http\Request;
+use App\Models\TransaksiBarang;
 
 class TransaksiBarangController extends Controller
 {
@@ -14,7 +16,10 @@ class TransaksiBarangController extends Controller
      */
     public function index()
     {
-        return view('kasir.transaksi.barang.index');
+        
+        $list_transaksi_barang = Transaksi::with('barang')->orderBy('created_at', 'desc')
+        ->get();
+        return view('kasir.transaksi.barang.index', compact('list_transaksi_barang'));
     }
 
     /**
@@ -43,7 +48,17 @@ class TransaksiBarangController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'barang.*.id_barang' => 'required|exists:barang,id',
+            'barang.*.jumlah' => 'required|numeric'            
+        ]);
+        foreach ($request->barang as $value) {
+            TransaksiBarang::create([
+                'id_transaksi' => $id,
+                'id_barang' => json_decode($value['id_barang'])->id,
+                'jumlah' => $value['jumlah']
+            ]);
+        }
     }
 
     /**
