@@ -1,6 +1,18 @@
 @extends('layouts.app')
 
 @section('content')
+
+@if ($errors->any())
+<div class="alert alert-danger">
+    <strong>Ups!</strong> Ada kesalahan input data<br><br>
+    <ul>
+        @foreach ($errors->all() as $error)
+        <li>{{ $error }}</li>
+        @endforeach
+    </ul>
+</div>
+@endif
+
 <section class="section">
     <div class="card">
         <div class="card-header">
@@ -23,7 +35,7 @@
                         <strong>{{ $message }}</strong>
                     </span>
                     @enderror
-                </div>                
+                </div>
                 <div class="buttons float-end mt-3">
                     <input type="submit" value="Tampilkan Obat" class="btn btn-outline-success">
                 </div>
@@ -79,7 +91,7 @@
                                                     <p>Total Transaksi</p>
                                                 </div>
                                                 <div class="col">
-                                                    <p class="text-end">{{$list_obat->sum('harga_satuan')*$list_obat->sum('jumlah')}}</p>
+                                                    <p class="text-end">{{$list_obat->sum('harga_satuan') * $list_obat->sum('jumlah')}}</p>
                                                 </div>
                                             </div>
                                             <div class="row">
@@ -104,7 +116,7 @@
                                         </div>
                                     </div>
                                     <form action="{{route('transaksi.obat.store')}}" method="post">
-                                    @csrf
+                                        @csrf
                                         <div class="form-group">
                                             <label for="basicInput">Uang <span class="text-danger">*</span></label>
                                             <input type="number" class="form-control input-number @error('jumlah') is-invalid @enderror" id="basicInput" name="uang" placeholder="Masukan Uang">
@@ -116,7 +128,7 @@
                                             <input type="hidden" name="total_transaksi" value="{{$list_obat->sum('harga_satuan')*$list_obat->sum('jumlah')}}">
                                             <input type="hidden" name="total_ppn" value="{{$list_obat->sum('harga_satuan')*$list_obat->sum('jumlah')*0.1}}">
                                             <input type="hidden" name="total_harga" value="{{$list_obat->sum('harga_satuan')*$list_obat->sum('jumlah')+$list_obat->sum('harga_satuan')*$list_obat->sum('jumlah')*0.1}}">
-                                            <input type="hidden" name="id_resep_obat" value="{{$list_obat[0]->id_resep_obat}}">
+                                            <input type="hidden" name="id_pemeriksaan" value="{{request()->query('id_pemeriksaan')}}">
                                         </div>
                                         <div class="modal-footer">
                                             <input type="submit" name="submit" value="Bayar" class="btn btn-primary">

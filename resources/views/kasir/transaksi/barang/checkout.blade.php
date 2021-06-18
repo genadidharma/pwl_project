@@ -4,7 +4,7 @@
 
 @if ($errors->any())
 <div class="alert alert-danger">
-    <strong>Whoops!</strong> There were some problems with your input.<br><br>
+    <strong>Ups!</strong> Ada kesalahan input data<br><br>
     <ul>
         @foreach ($errors->all() as $error)
         <li>{{ $error }}</li>
@@ -28,15 +28,17 @@
                                 <th width="50%">Nama</th>
                                 <th>Jumlah</th>
                                 <th>Harga Satuan(Rp)</th>
+                                <th>Total (Rp)</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($list_barang as $index=>$barang)                                
+                            @foreach ($list_barang as $index=>$barang)
                             <tr>
                                 <td>{{$index+=1}}</td>
                                 <td>{{$barang->nama}}</td>
                                 <td>{{$barang->jumlah}}</td>
                                 <td>{{$barang->harga_satuan}}</td>
+                                <td>{{$barang->total}}</td>
                             </tr>
                             @endforeach
                         </tbody>
@@ -59,7 +61,7 @@
                                                     <p>Total Transaksi</p>
                                                 </div>
                                                 <div class="col">
-                                                    <p class="text-end">{{$list_barang->sum('harga_satuan')}}</p>
+                                                    <p class="text-end">{{$list_barang->sum('total')}}</p>
                                                 </div>
                                             </div>
                                             <div class="row">
@@ -67,7 +69,7 @@
                                                     <p>PPN(10%)</p>
                                                 </div>
                                                 <div class="col">
-                                                    <p class="text-end">{{$list_barang->sum('harga_satuan')*0.1}}</p>
+                                                    <p class="text-end">{{$list_barang->sum('total') * 0.1}}</p>
                                                 </div>
                                             </div>
                                         </div>
@@ -78,7 +80,7 @@
                                                     <p>Total Biaya</p>
                                                 </div>
                                                 <div class="col">
-                                                    <p class="fs-5 fw-bold text-end">{{$list_barang->sum('harga_satuan')+$list_barang->sum('harga_satuan')*0.1}}</p>
+                                                    <p class="fs-5 fw-bold text-end">{{$list_barang->sum('total') + $list_barang->sum('total') * 0.1}}</p>
                                                 </div>
                                             </div>
                                         </div>
@@ -94,8 +96,9 @@
                                             </span>
                                             @enderror
                                         </div>
-                                        <input type="hidden" name="total_harga" value="{{$list_barang->sum('harga_satuan')+$list_barang->sum('harga_satuan')*0.1}}">
-                                        <input type="hidden" name="total_ppn" value="{{$list_barang->sum('harga_satuan')*0.1}}">
+                                        <input type="hidden" name="total_transaksi" value="{{$list_barang->sum('total')}}">
+                                        <input type="hidden" name="total_ppn" value="{{$list_barang->sum('total') * 0.1}}">
+                                        <input type="hidden" name="total_harga" value="{{$list_barang->sum('total') + $list_barang->sum('total') * 0.1}}">
                                         <div class="modal-footer">
                                             <input type="submit" name="bayar" value="Bayar" class="btn btn-primary">
                                         </div>
@@ -120,7 +123,7 @@
                             <p>Total Transaksi</p>
                         </div>
                         <div class="col">
-                            <p class="text-end">{{$list_barang->sum('harga_satuan')}}</p>
+                            <p class="text-end">{{$list_barang->sum('total')}}</p>
                         </div>
                     </div>
                     <div class="row">
@@ -128,7 +131,7 @@
                             <p>PPN(10%)</p>
                         </div>
                         <div class="col">
-                            <p class="text-end">{{$list_barang->sum('harga_satuan')*0.1}}</p>
+                            <p class="text-end">{{$list_barang->sum('total') * 0.1}}</p>
                         </div>
                     </div>
                 </div>
@@ -139,7 +142,7 @@
                             <p>Total Biaya</p>
                         </div>
                         <div class="col">
-                            <p class="fs-5 fw-bold text-end">{{$list_barang->sum('harga_satuan')+$list_barang->sum('harga_satuan')*0.1}}</p>
+                            <p class="fs-5 fw-bold text-end">{{$list_barang->sum('total') + $list_barang->sum('total') * 0.1}}</p>
                         </div>
                     </div>
                 </div>

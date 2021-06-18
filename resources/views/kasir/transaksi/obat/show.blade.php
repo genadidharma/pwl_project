@@ -17,15 +17,17 @@
                                 <th width="50%">Nama</th>
                                 <th>Jumlah</th>
                                 <th>Harga Satuan(Rp)</th>
+                                <th>Total (Rp)</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($transaksi as $index=>$barang)
+                            @foreach ($transaksi->resep_obat as $index=>$resep_obat)
                             <tr>
                                 <td>{{$index+=1}}</td>
-                                <td>{{$barang->nama}}</td>
-                                <td>{{$barang->jumlah}}</td>
-                                <td>{{$barang->harga_satuan}}</td>
+                                <td>{{$resep_obat->barang->nama}}</td>
+                                <td>{{$resep_obat->jumlah}}</td>
+                                <td>{{number_format($resep_obat->barang->harga_satuan)}}</td>
+                                <td>{{$resep_obat->total}}</td>
                             </tr>
                             @endforeach
                         </tbody>

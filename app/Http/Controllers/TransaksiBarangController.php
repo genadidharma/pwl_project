@@ -17,9 +17,9 @@ class TransaksiBarangController extends Controller
      */
     public function index()
     {
-        
+
         $list_transaksi_barang = Transaksi::with('barang')->orderBy('created_at', 'desc')
-        ->get();
+            ->get();
         return view('kasir.transaksi.barang.index', compact('list_transaksi_barang'));
     }
 
@@ -30,15 +30,16 @@ class TransaksiBarangController extends Controller
      */
     public function create()
     {
-        if(request()->query('checkout')){
+        if (request()->query('checkout')) {
             $list_barang = collect();
-            foreach(Session::get('list_barang') as $barang_terpilih) {
+            foreach (Session::get('list_barang') as $barang_terpilih) {
                 $barang = Barang::where('id', json_decode($barang_terpilih['id_barang'])->id)->first();
-                
+
                 $list_barang->push((object)[
-                    'nama'=>$barang->nama,
-                    'jumlah'=> $barang_terpilih['jumlah'],
-                    'harga_satuan'=>$barang->harga_satuan
+                    'nama' => $barang->nama,
+                    'jumlah' => $barang_terpilih['jumlah'],
+                    'harga_satuan' => $barang->harga_satuan,
+                    'total' => $barang_terpilih['jumlah'] * $barang->harga_satuan
                 ]);
             }
             return view('kasir.transaksi.barang.checkout', compact('list_barang'));
@@ -62,15 +63,15 @@ class TransaksiBarangController extends Controller
      */
     public function store(Request $request)
     {
-        if($request->get('uang')){
+        if ($request->get('uang')) {
             $request->validate([
-                'uang' => 'required|numeric|min:'.$request->get('total_harga')
+                'uang' => 'required|numeric|min:' . $request->get('total_harga')
             ]);
             $transaksi = Transaksi::create([
-                'id_user'=>auth()->user()->id,
-                'total_harga'=>$request->get('total_harga'),
-                'total_ppn'=>$request->get('total_ppn'),
-                'uang'=>$request->get('uang')
+                'id_user' => auth()->user()->id,
+                'total_harga' => $request->get('total_transaksi'),
+                'total_ppn' => $request->get('total_ppn'),
+                'uang' => $request->get('uang')
             ]);
             foreach (Session::get('list_barang') as $barang_terpilih) {
                 TransaksiBarang::create([
@@ -79,15 +80,15 @@ class TransaksiBarangController extends Controller
                     'jumlah' => $barang_terpilih['jumlah']
                 ]);
             }
-        return redirect()->route('transaksi.barang.show', $transaksi->id);
+            return redirect()->route('transaksi.barang.show', $transaksi->id);
         }
-        
+
         $request->validate([
             'barang.*.id_barang' => 'required',
-            'barang.*.jumlah' => 'required|numeric'                        
+            'barang.*.jumlah' => 'required|numeric'
         ]);
         Session::put('list_barang', $request->get('barang'));
-        return redirect()->route('transaksi.barang.create', ['checkout'=>'true']);
+        return redirect()->route('transaksi.barang.create', ['checkout' => 'true']);
     }
 
     /**
@@ -101,7 +102,7 @@ class TransaksiBarangController extends Controller
         $transaksi = Transaksi::with('barang')
             ->where('id', $id)
             ->first();
-            return view('kasir.transaksi.barang.show', compact('transaksi'));
+        return view('kasir.transaksi.barang.show', compact('transaksi'));
     }
 
     /**

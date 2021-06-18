@@ -2,6 +2,7 @@
 
 namespace App\Observers;
 
+use App\Models\ResepObat;
 use App\Models\Stok;
 use App\Models\TransaksiObat;
 
@@ -15,20 +16,25 @@ class TransaksiObatObserver
      */
     public function created(TransaksiObat $transaksiObat)
     {
-        $jumlah = $transaksiObat -> jumlah;
-        while ($jumlah > 0){
-            $stock = Stok::where('id_barang', $transaksiObat->id_barang)
-            ->where('jumlah', '>', 0)
-            ->orderBy('jumlah', 'desc')
+        $resep_obat = ResepObat::select('id_barang', 'jumlah')
+            ->where('id', $transaksiObat->id_resep_obat)
             ->first();
 
-            if($stock->jumlah >= $jumlah){
+        $jumlah = $resep_obat->jumlah;
+
+        while ($jumlah > 0) {
+            $stock = Stok::where('id_barang', $resep_obat->id_barang)
+                ->where('jumlah', '>', 0)
+                ->orderBy('jumlah', 'desc')
+                ->first();
+
+            if ($stock->jumlah >= $jumlah) {
                 $stock->decrement('jumlah', $jumlah);
-                $jumlah=0;
-            }else{
-                $sisa = $jumlah-$stock;
-                $stock->decrement('jumlah',$stock->jumlah);
-                $jumlah=$sisa;
+                $jumlah = 0;
+            } else {
+                $sisa = $jumlah - $stock;
+                $stock->decrement('jumlah', $stock->jumlah);
+                $jumlah = $sisa;
             }
         }
     }

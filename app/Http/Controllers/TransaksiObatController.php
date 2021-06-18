@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\ResepObat;
+use App\Models\Transaksi;
 use App\Models\Pemeriksaan;
 use Illuminate\Http\Request;
 use App\Models\TransaksiObat;
@@ -30,20 +31,21 @@ class TransaksiObatController extends Controller
         $list_obat = collect();
 
         if ($request->get('id_pemeriksaan')) {
-            $obat = ResepObat::with('barang')
+            $obat_obatan = ResepObat::with('barang')
                 ->where('id_pemeriksaan', $request->get('id_pemeriksaan'))
                 ->get();
-    
-                foreach($obat as $obat_terpilih) {
-                
+
+            foreach ($obat_obatan as $obat) {
                 $list_obat->push((object)[
-                    'id_barang'=>$obat_terpilih->barang->id,
-                    'id_resep_obat'=>$obat_terpilih->id,
-                    'nama'=>$obat_terpilih->barang->nama,
-                    'jumlah'=> $obat_terpilih->jumlah,
-                    'harga_satuan'=>$obat_terpilih->barang->harga_satuan
+                    'id_resep_obat' => $obat->id,
+                    'id_barang' => $obat->barang->id,
+                    'nama' => $obat->barang->nama,
+                    'jumlah' => $obat->jumlah,
+                    'harga_satuan' => $obat->barang->harga_satuan,
+                    'total' => $obat->jumlah * $obat->barang->harga_satuan
                 ]);
             }
+            Session::put('list_obat', $list_obat);
         }
 
         $list_pemeriksaan = Pemeriksaan::with('resep_obat')
@@ -67,20 +69,30 @@ class TransaksiObatController extends Controller
      */
     public function store(Request $request)
     {
-            $request->validate([
-                'uang' => 'required|numeric|min:'.$request->get('total_harga')
-            ]);
-            $transaksi = Transaksi::create([
-                'id_user'=>auth()->user()->id,
-                'total_harga'=>$request->get('total_transaksi'),
-                'total_ppn'=>$request->get('total_ppn'),
-                'uang'=>$request->get('uang')
-            ]);
+        $request->validate([
+            'uang' => 'required|numeric|min:' . $request->get('total_harga')
+        ]);
+
+        $transaksi = Transaksi::create([
+            'id_user' => auth()->user()->id,
+            'total_harga' => $request->get('total_transaksi'),
+            'total_ppn' => $request->get('total_ppn'),
+            'uang' => $request->get('uang')
+        ]);
+
+        foreach (Session::get('list_obat') as $obat) {
             TransaksiObat::create([
-                'id_resep_obat'=>$request->get('id_resep_obat'),
-                'id_transaksi'=>$transaksi->id
+                'id_resep_obat' => $obat->id_resep_obat,
+                'id_transaksi' => $transaksi->id
             ]);
-            return redirect()->route('transaksi.obat.show', $request->get('id_resep_obat'));
+        }
+
+        Pemeriksaan::find($request->get('id_pemeriksaan'))
+            ->update([
+                'status' => 4
+            ]);
+
+        return redirect()->route('transaksi.obat.show', $transaksi->id);
     }
 
     /**
@@ -91,10 +103,16 @@ class TransaksiObatController extends Controller
      */
     public function show($id)
     {
-        $transaksi = ResepObat::with('barang')
+        $transaksi = Transaksi::with(['resep_obat' => function ($query) {
+            $query->with('barang');
+        }])
             ->where('id', $id)
             ->first();
-            dd($transaksi);
+
+        $transaksi->resep_obat->map(function ($obat, $index) use ($transaksi) {
+            return $transaksi->resep_obat[$index]->total = $obat->jumlah * $obat->barang->harga_satuan;
+        });
+
         return view('kasir.transaksi.obat.show', compact('transaksi'));
     }
 
