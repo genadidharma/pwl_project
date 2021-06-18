@@ -2,10 +2,14 @@
 
 namespace App\Providers;
 
+use App\Models\TransaksiObat;
+use App\Models\TransaksiBarang;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Auth\Events\Registered;
+use App\Observers\TransaksiObatObserver;
+use App\Observers\TransaksiBarangObserver;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
-use Illuminate\Support\Facades\Event;
 
 class EventServiceProvider extends ServiceProvider
 {
@@ -26,7 +30,8 @@ class EventServiceProvider extends ServiceProvider
      * @return void
      */
     public function boot()
-    {
-        //
-    }
+{
+    TransaksiBarang::observe(TransaksiBarangObserver::class);
+    TransaksiObat::observe(TransaksiObatObserver::class);
+}
 }
