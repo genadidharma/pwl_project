@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Pemeriksaan;
 use App\Models\ResepObat;
+use App\Models\Pemeriksaan;
 use Illuminate\Http\Request;
+use App\Models\TransaksiObat;
+use Illuminate\Support\Facades\Session;
 
 class TransaksiObatController extends Controller
 {
@@ -28,9 +30,20 @@ class TransaksiObatController extends Controller
         $list_obat = collect();
 
         if ($request->get('id_pemeriksaan')) {
-            $list_obat = ResepObat::with('barang')
+            $obat = ResepObat::with('barang')
                 ->where('id_pemeriksaan', $request->get('id_pemeriksaan'))
                 ->get();
+    
+                foreach($obat as $obat_terpilih) {
+                
+                $list_obat->push((object)[
+                    'id_barang'=>$obat_terpilih->barang->id,
+                    'id_resep_obat'=>$obat_terpilih->id,
+                    'nama'=>$obat_terpilih->barang->nama,
+                    'jumlah'=> $obat_terpilih->jumlah,
+                    'harga_satuan'=>$obat_terpilih->barang->harga_satuan
+                ]);
+            }
         }
 
         $list_pemeriksaan = Pemeriksaan::with('resep_obat')
@@ -54,7 +67,20 @@ class TransaksiObatController extends Controller
      */
     public function store(Request $request)
     {
-        //
+            $request->validate([
+                'uang' => 'required|numeric|min:'.$request->get('total_harga')
+            ]);
+            $transaksi = Transaksi::create([
+                'id_user'=>auth()->user()->id,
+                'total_harga'=>$request->get('total_transaksi'),
+                'total_ppn'=>$request->get('total_ppn'),
+                'uang'=>$request->get('uang')
+            ]);
+            TransaksiObat::create([
+                'id_resep_obat'=>$request->get('id_resep_obat'),
+                'id_transaksi'=>$transaksi->id
+            ]);
+            return redirect()->route('transaksi.obat.show', $request->get('id_resep_obat'));
     }
 
     /**
@@ -65,7 +91,11 @@ class TransaksiObatController extends Controller
      */
     public function show($id)
     {
-        return view('kasir.transaksi.obat.show');
+        $transaksi = ResepObat::with('barang')
+            ->where('id', $id)
+            ->first();
+            dd($transaksi);
+        return view('kasir.transaksi.obat.show', compact('transaksi'));
     }
 
     /**

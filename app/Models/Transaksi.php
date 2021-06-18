@@ -15,8 +15,8 @@ class Transaksi extends Model
         'id_user',
         'id_transaksi',
         'total_harga',
-        'uang',
-        'status'
+        'total_ppn',
+        'uang'
     ];
 
     public function obat()

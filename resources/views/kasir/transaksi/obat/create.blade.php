@@ -23,7 +23,7 @@
                         <strong>{{ $message }}</strong>
                     </span>
                     @enderror
-                </div>
+                </div>                
                 <div class="buttons float-end mt-3">
                     <input type="submit" value="Tampilkan Obat" class="btn btn-outline-success">
                 </div>
@@ -54,9 +54,9 @@
                             @foreach($list_obat as $index => $obat)
                             <tr>
                                 <td>{{$index+=1}}</td>
-                                <td>{{$obat->barang->nama}}</td>
+                                <td>{{$obat->nama}}</td>
                                 <td>{{$obat->jumlah}}</td>
-                                <td>{{$obat->barang->harga_satuan}}</td>
+                                <td>{{$obat->harga_satuan}}</td>
                             </tr>
                             @endforeach
                         </tbody>
@@ -76,10 +76,10 @@
                                         <div class="card-body">
                                             <div class="row">
                                                 <div class="col">
-                                                    <p>Total Biaya</p>
+                                                    <p>Total Transaksi</p>
                                                 </div>
                                                 <div class="col">
-                                                    <p class="text-end">250.000</p>
+                                                    <p class="text-end">{{$list_obat->sum('harga_satuan')*$list_obat->sum('jumlah')}}</p>
                                                 </div>
                                             </div>
                                             <div class="row">
@@ -87,7 +87,7 @@
                                                     <p>PPN(10%)</p>
                                                 </div>
                                                 <div class="col">
-                                                    <p class="text-end">30.000</p>
+                                                    <p class="text-end">{{$list_obat->sum('harga_satuan')*$list_obat->sum('jumlah')*0.1}}</p>
                                                 </div>
                                             </div>
                                         </div>
@@ -98,23 +98,30 @@
                                                     <p>Total Biaya</p>
                                                 </div>
                                                 <div class="col">
-                                                    <p class="fs-5 fw-bold text-end">250.000</p>
+                                                    <p class="fs-5 fw-bold text-end">{{$list_obat->sum('harga_satuan')*$list_obat->sum('jumlah')+$list_obat->sum('harga_satuan')*$list_obat->sum('jumlah')*0.1}}</p>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="form-group">
-                                        <label for="basicInput">Uang <span class="text-danger">*</span></label>
-                                        <input type="number" class="form-control input-number @error('jumlah') is-invalid @enderror" id="basicInput" name="uang" placeholder="Masukan Uang">
-                                        @error('uang')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                        @enderror
-                                    </div>
-                                    <div class="modal-footer">
-                                        <input type="submit" name="submit" value="Bayar" class="btn btn-primary" data-bs-dismiss="modal">
-                                    </div>
+                                    <form action="{{route('transaksi.obat.store')}}" method="post">
+                                    @csrf
+                                        <div class="form-group">
+                                            <label for="basicInput">Uang <span class="text-danger">*</span></label>
+                                            <input type="number" class="form-control input-number @error('jumlah') is-invalid @enderror" id="basicInput" name="uang" placeholder="Masukan Uang">
+                                            @error('uang')
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                            @enderror
+                                            <input type="hidden" name="total_transaksi" value="{{$list_obat->sum('harga_satuan')*$list_obat->sum('jumlah')}}">
+                                            <input type="hidden" name="total_ppn" value="{{$list_obat->sum('harga_satuan')*$list_obat->sum('jumlah')*0.1}}">
+                                            <input type="hidden" name="total_harga" value="{{$list_obat->sum('harga_satuan')*$list_obat->sum('jumlah')+$list_obat->sum('harga_satuan')*$list_obat->sum('jumlah')*0.1}}">
+                                            <input type="hidden" name="id_resep_obat" value="{{$list_obat[0]->id_resep_obat}}">
+                                        </div>
+                                        <div class="modal-footer">
+                                            <input type="submit" name="submit" value="Bayar" class="btn btn-primary">
+                                        </div>
+                                    </form>
                                 </div>
                             </div>
                         </div>
@@ -128,14 +135,13 @@
                 <div class="card-header">
                     <h4>Ringkasan Pembayaran</h4>
                 </div>
-
                 <div class="card-body">
                     <div class="row">
                         <div class="col">
                             <p>Total Transaksi</p>
                         </div>
                         <div class="col">
-                            <p class="text-end">250.000</p>
+                            <p class="text-end">{{$list_obat->sum('harga_satuan')*$list_obat->sum('jumlah')}}</p>
                         </div>
                     </div>
                     <div class="row">
@@ -143,7 +149,7 @@
                             <p>PPN(10%)</p>
                         </div>
                         <div class="col">
-                            <p class="text-end">30.000</p>
+                            <p class="text-end">{{$list_obat->sum('harga_satuan')*$list_obat->sum('jumlah')*0.1}}</p>
                         </div>
                     </div>
                 </div>
@@ -154,7 +160,7 @@
                             <p>Total Biaya</p>
                         </div>
                         <div class="col">
-                            <p class="fs-5 fw-bold text-end">250.000</p>
+                            <p class="fs-5 fw-bold text-end">{{$list_obat->sum('harga_satuan')*$list_obat->sum('jumlah')+$list_obat->sum('harga_satuan')*$list_obat->sum('jumlah')*0.1}}</p>
                         </div>
                     </div>
                 </div>

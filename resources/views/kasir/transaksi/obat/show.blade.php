@@ -6,7 +6,7 @@
         <div class="col-xl-8 col-md-12">
             <div class="card">
                 <div class="card-header d-flex align-items-between">
-                    <h4 class="align-self-center">Resep Obat</h4>
+                    <h4 class="align-self-center">Daftar Obat</h4>
                     <a href="{{route('transaksi.obat.create')}}" class="btn btn-danger ms-auto m-3"> <i class="icon-mid bi-file-earmark-arrow-down"></i> Download PDF</a>
                 </div>
                 <div class="card-body">
@@ -20,12 +20,14 @@
                             </tr>
                         </thead>
                         <tbody>
+                            @foreach ($transaksi as $index=>$barang)
                             <tr>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
+                                <td>{{$index+=1}}</td>
+                                <td>{{$barang->nama}}</td>
+                                <td>{{$barang->jumlah}}</td>
+                                <td>{{$barang->harga_satuan}}</td>
                             </tr>
+                            @endforeach
                         </tbody>
                     </table>
                 </div>
@@ -44,7 +46,7 @@
                             <p>Total Transaksi</p>
                         </div>
                         <div class="col">
-                            <p class="text-end">250.000</p>
+                            <p class="text-end">{{$transaksi->total_harga}}</p>
                         </div>
                     </div>
                     <div class="row">
@@ -52,7 +54,7 @@
                             <p>PPN(10%)</p>
                         </div>
                         <div class="col">
-                            <p class="text-end">30.000</p>
+                            <p class="text-end">{{$transaksi->total_ppn}}</p>
                         </div>
                     </div>
                     <div class="row">
@@ -60,7 +62,7 @@
                             <p>Total Biaya</p>
                         </div>
                         <div class="col">
-                            <p class="fw-bold text-end">250.000</p>
+                            <p class="fw-bold text-end">{{$transaksi->total_harga+$transaksi->total_ppn}}</p>
                         </div>
                     </div>
                 </div>
@@ -71,7 +73,7 @@
                             <p>Uang</p>
                         </div>
                         <div class="col">
-                            <p class="fw-bold text-end">250.000</p>
+                            <p class="fw-bold text-end">{{$transaksi->uang}}</p>
                         </div>
                     </div>
                     <div class="row">
@@ -79,7 +81,7 @@
                             <p>Kembalian</p>
                         </div>
                         <div class="col">
-                            <p class="fw-bold text-end">250.000</p>
+                            <p class="fw-bold text-end">{{$transaksi->uang-($transaksi->total_harga+$transaksi->total_ppn)}}</p>
                         </div>
                     </div>
                 </div>
