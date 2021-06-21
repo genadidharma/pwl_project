@@ -55,6 +55,8 @@
                                     <span class="badge bg-light-warning"> Dalam Pemeriksaan </span>
                                 @elseif ($pemeriksaan->status == 3)
                                     <span class="badge bg-light-primary"> Selesai </span>
+                                @elseif ($pemeriksaan->status == 4)
+                                    <span class="badge bg-light-success"> Obat Ditebus </span>
                                 @endif
                             </td>
                             <td>                                

@@ -29,7 +29,7 @@
                         <img class="avatar w-100" src="{{asset('assets/images/faces/2.jpg')}}">
                     </div>
                     <div class="col-11">
-                        <p class="fs-6 text-grey">{{\Carbon\Carbon::parse($pasien_berikutnya->jam_pemeriksaan)->format('D, d M | H:i')}}</p>
+                    <p class="fs-6 text-grey">{{\Carbon\Carbon::parse($pasien_berikutnya->tanggal_pemeriksaan)->format('D, d M')}} {{\Carbon\Carbon::parse($pasien_berikutnya->jam_pemeriksaan)->format(' | H:i')}}</p>
                         <h4>{{$pasien_berikutnya->nama_pemilik_hewan}}</h4>
                         <p class="fs-6 text-grey">{{$pasien_berikutnya->no_telp_pemilik_hewan}}</p>
                         <div class="col-2">

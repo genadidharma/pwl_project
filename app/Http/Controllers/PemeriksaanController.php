@@ -35,8 +35,7 @@ class PemeriksaanController extends Controller
 
         $list_pemeriksaan = Pemeriksaan::with('user')
             ->where('tanggal_pemeriksaan', Carbon::today())
-            ->where('status', 1)
-            ->orWhere('status', 2)
+            ->whereIn('status', [1, 2])
             ->where('id_user', auth()->user()->id)
             ->orderBy('jam_pemeriksaan')
             ->get();
@@ -110,7 +109,10 @@ class PemeriksaanController extends Controller
      */
     public function show($id)
     {
-        $pemeriksaan = Pemeriksaan::findOrFail($id);
+        $pemeriksaan = Pemeriksaan::where('id', $id)
+            ->where('tanggal_pemeriksaan', Carbon::today())
+            ->whereIn('status', [1, 2])
+            ->firstOrFail();
         $list_obat = Barang::with('kategori')
             ->withSum('stok', 'jumlah')
             ->whereHas('kategori', function ($query) {
@@ -125,10 +127,7 @@ class PemeriksaanController extends Controller
             ]);
         }
 
-        if (Carbon::parse($pemeriksaan->tanggal_pemeriksaan) == Carbon::today() && ($pemeriksaan->status == 1 || $pemeriksaan->status == 2)) {
-            return view('dokter.pemeriksaan.show', compact('pemeriksaan', 'list_obat'));
-        }
-        abort(404);
+        return view('dokter.pemeriksaan.show', compact('pemeriksaan', 'list_obat'));
     }
 
     /**
@@ -158,17 +157,17 @@ class PemeriksaanController extends Controller
                 'jam' => [
                     'required',
                     Rule::unique('pemeriksaan', 'jam_pemeriksaan')
-                    ->where(function ($query) use ($request) {
-                        return $query
-                            ->where('jam_pemeriksaan', $request->get('jam'))
-                            ->orWhere('tanggal_pemeriksaan', $request->get('tanggal'))
-                            ->whereBetween('jam_pemeriksaan', [
-                                Carbon::parse($request->get('jam'))->addMinute()->format('H:i:s'),
-                                Carbon::parse($request->get('jam'))->addMinutes(30)->format('H:i:s'),
-                            ])
-                            ->where('id_user', $request->get('dokter'));
-                    })
-            ],
+                        ->where(function ($query) use ($request) {
+                            return $query
+                                ->where('jam_pemeriksaan', $request->get('jam'))
+                                ->orWhere('tanggal_pemeriksaan', $request->get('tanggal'))
+                                ->whereBetween('jam_pemeriksaan', [
+                                    Carbon::parse($request->get('jam'))->addMinute()->format('H:i:s'),
+                                    Carbon::parse($request->get('jam'))->addMinutes(30)->format('H:i:s'),
+                                ])
+                                ->where('id_user', $request->get('dokter'));
+                        })
+                ],
 
             ]);
 
