@@ -7,7 +7,7 @@
     <div class="col-lg-5 col-12">
         <div id="auth-left">
             <div class="auth-logo">
-                <a href="index.html"><img src="/assets/images/logo/logo.png" alt="Logo"></a>
+                <img src="{{asset('assets/images/logo/logo-text.png')}}" class="w-50 h-auto" alt="Logo" srcset="">
             </div>
             <h1 class="auth-title">Ubah Password</h1>
             <p class="auth-subtitle mb-5">Ganti Passwordmu dengan yang baru</p>
@@ -21,7 +21,7 @@
             <form method="POST" action="{{ route('password.update') }}"">
                 @csrf
 
-                <input type="hidden" name="token" value="{{ $token }}">
+                <input type=" hidden" name="token" value="{{ $token }}">
 
                 <div class="form-group position-relative has-icon-left mb-4 @error('email') mb-5 @enderror">
                     <input type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ $email ?? old('email') }}" required autocomplete="email" placeholder="E-mail">

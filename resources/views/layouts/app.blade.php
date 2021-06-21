@@ -17,7 +17,7 @@
     <link rel="stylesheet" href="{{asset('assets/vendors/choices.js/choices.min.css')}}" />
     <link rel="stylesheet" href="{{asset('assets/vendors/toastify/toastify.css')}}">
     <link rel="stylesheet" href="{{asset('assets/css/app.css')}}">
-    <link rel="shortcut icon" href="{{asset('assets/images/favicon.svg')}}" type="image/x-icon">
+    <link rel="icon" href="{{asset('assets/images/favicon.png')}}" type="image/x-icon">
 
     <script src="{{asset('assets/vendors/toastify/toastify.js')}}"></script>
     <script src="{{asset('assets/js/extensions/toastify.js')}}"></script>
@@ -32,7 +32,7 @@
                 <div class="sidebar-header">
                     <div class="d-flex justify-content-between">
                         <div class="logo">
-                            <a href="index.html"><img src="{{asset('assets/images/logo/logo.png')}}" alt="Logo" srcset=""></a>
+                            <a href="{{route('home')}}"><img src="{{asset('assets/images/logo/logo-text.png')}}" class="w-50 h-auto" alt="Logo" srcset=""></a>
                         </div>
                         <div class="toggler">
                             <a href="#" class="sidebar-hide d-xl-none d-block"><i class="bi bi-x bi-middle"></i></a>
@@ -163,9 +163,6 @@
                                     <li>
                                         <h6 class="dropdown-header">Halo, {{auth()->user()->nama}}!</h6>
                                     </li>
-                                    <li><a class="dropdown-item" href="#"><i class="icon-mid bi bi-person me-2"></i> My
-                                            Profile</a></li>
-                                    <li>
                                         <hr class="dropdown-divider">
                                     </li>
                                     <li>

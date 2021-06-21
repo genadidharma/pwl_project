@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="{{asset('assets/vendors/bootstrap-icons/bootstrap-icons.css')}}">
     <link rel="stylesheet" href="{{asset('assets/css/app.css')}}">
     <link rel="stylesheet" href="{{asset('assets/css/pages/auth.css')}}">
+    <link rel="icon" href="{{asset('assets/images/favicon.png')}}" type="image/x-icon">
 </head>
 
 <body>

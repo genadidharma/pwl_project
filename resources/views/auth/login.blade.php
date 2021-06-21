@@ -7,7 +7,7 @@
     <div class="col-lg-5 col-12">
         <div id="auth-left">
             <div class="auth-logo">
-                <img src="/assets/images/logo/logo.png" alt="Logo">
+                <img src="{{asset('assets/images/logo/logo-text.png')}}" class="w-50 h-auto" alt="Logo" srcset="">
             </div>
             <h1 class="auth-title">Log in.</h1>
             <p class="auth-subtitle mb-5">Log in ke Pethouse</p>
@@ -17,7 +17,7 @@
                 {{ session('status') }}
             </div>
             @endif
-            
+
             <form method="POST" action="{{ route('login') }}">
                 @csrf
                 <div class="form-group position-relative has-icon-start mb-4  @error('username') mb-5 @enderror">
