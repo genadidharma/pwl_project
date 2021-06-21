@@ -36,7 +36,16 @@
                         </tr>
                     </thead>
                     <tbody>
-                        
+                        @foreach ($list_transaksi_obat as $index=>$transaksi)
+                            <tr>
+                                <td>{{$index+=1}}</td>
+                                <td>{{Carbon\Carbon::parse($transaksi->created_at)->format('D, d M')}}</td>
+                                <td>{{$transaksi->total_harga+$transaksi->total_ppn}}</td>
+                                <td>
+                                    <a href="{{route('transaksi.obat.show', $transaksi->id)}}" class="btn-sm btn-danger">Lihat Struk</a>
+                                </td>
+                            </tr>
+                        @endforeach                     
                     </tbody>
                 </table>
             </div>

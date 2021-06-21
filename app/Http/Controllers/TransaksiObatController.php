@@ -18,7 +18,12 @@ class TransaksiObatController extends Controller
      */
     public function index()
     {
-        return view('kasir.transaksi.obat.index');
+        $list_transaksi_obat = Transaksi::with(['resep_obat' => function ($query) {
+            $query->with('barang');
+        }])
+        ->orderBy('created_at', 'desc')
+        ->get();
+        return view('kasir.transaksi.obat.index', compact('list_transaksi_obat'));
     }
 
     /**
