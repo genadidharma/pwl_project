@@ -19,8 +19,10 @@ class TransaksiBarangController extends Controller
     public function index()
     {
         
-        $list_transaksi_barang = Transaksi::with('barang')->orderBy('created_at', 'desc')
-        ->get();
+        $list_transaksi_barang = Transaksi::with('barang')
+            ->has('barang')
+            ->orderBy('created_at', 'desc')
+            ->get();
         return view('kasir.transaksi.barang.index', compact('list_transaksi_barang'));
     }
 
