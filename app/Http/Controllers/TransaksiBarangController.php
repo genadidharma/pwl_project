@@ -7,6 +7,7 @@ use App\Models\Transaksi;
 use Illuminate\Http\Request;
 use App\Models\TransaksiBarang;
 use Illuminate\Support\Facades\Session;
+use PDF;
 
 class TransaksiBarangController extends Controller
 {
@@ -102,7 +103,13 @@ class TransaksiBarangController extends Controller
         $transaksi = Transaksi::with('barang')
             ->where('id', $id)
             ->first();
-            return view('kasir.transaksi.barang.show', compact('transaksi'));
+
+        if(request()->query('print')){
+            $pdf = PDF::loadview('kasir.transaksi.barang.pdf', compact('transaksi'));
+            return $pdf->stream();
+        }
+
+        return view('kasir.transaksi.barang.show', compact('transaksi'));
     }
 
     /**
