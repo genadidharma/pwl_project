@@ -86,8 +86,8 @@
                                     <td>{{$index+=1}}</td>
                                     <td>{{$obat->nama}}</td>
                                     <td>{{$obat->jumlah}}</td>
-                                    <td>{{$obat->harga_satuan}}</td>
-                                    <td>{{$obat->total}}</td>
+                                    <td>@idr($obat->harga_satuan)</td>
+                                    <td>@idr($obat->total)</td>
                                 </tr>
                                 @endforeach
                             </tbody>
@@ -110,7 +110,7 @@
                                                         <p>Total Transaksi</p>
                                                     </div>
                                                     <div class="col">
-                                                        <p class="text-end">{{$list_obat->sum('harga_satuan')*$list_obat->sum('jumlah')}}</p>
+                                                        <p class="text-end">@idr_sign($list_obat->sum('harga_satuan')*$list_obat->sum('jumlah'))</p>
                                                     </div>
                                                 </div>
                                                 <div class="row">
@@ -118,7 +118,7 @@
                                                         <p>PPN(10%)</p>
                                                     </div>
                                                     <div class="col">
-                                                        <p class="text-end">{{$list_obat->sum('harga_satuan')*$list_obat->sum('jumlah')*0.1}}</p>
+                                                        <p class="text-end">@idr_sign($list_obat->sum('harga_satuan')*$list_obat->sum('jumlah')*0.1)</p>
                                                     </div>
                                                 </div>
                                             </div>
@@ -129,7 +129,7 @@
                                                         <p>Total Biaya</p>
                                                     </div>
                                                     <div class="col">
-                                                        <p class="fs-5 fw-bold text-end">{{$list_obat->sum('harga_satuan')*$list_obat->sum('jumlah')+$list_obat->sum('harga_satuan')*$list_obat->sum('jumlah')*0.1}}</p>
+                                                        <p class="fs-5 fw-bold text-end">@idr_sign($list_obat->sum('harga_satuan')*$list_obat->sum('jumlah')+$list_obat->sum('harga_satuan')*$list_obat->sum('jumlah')*0.1)</p>
                                                     </div>
                                                 </div>
                                             </div>
@@ -172,7 +172,7 @@
                                 <p>Total Transaksi</p>
                             </div>
                             <div class="col">
-                                <p class="text-end">{{$list_obat->sum('harga_satuan')*$list_obat->sum('jumlah')}}</p>
+                                <p class="text-end">@idr_sign($list_obat->sum('harga_satuan')*$list_obat->sum('jumlah'))</p>
                             </div>
                         </div>
                         <div class="row">
@@ -180,7 +180,7 @@
                                 <p>PPN(10%)</p>
                             </div>
                             <div class="col">
-                                <p class="text-end">{{$list_obat->sum('harga_satuan')*$list_obat->sum('jumlah')*0.1}}</p>
+                                <p class="text-end">@idr_sign($list_obat->sum('harga_satuan')*$list_obat->sum('jumlah')*0.1)</p>
                             </div>
                         </div>
                     </div>
@@ -191,7 +191,7 @@
                                 <p>Total Biaya</p>
                             </div>
                             <div class="col">
-                                <p class="fs-5 fw-bold text-end">{{$list_obat->sum('harga_satuan')*$list_obat->sum('jumlah')+$list_obat->sum('harga_satuan')*$list_obat->sum('jumlah')*0.1}}</p>
+                                <p class="fs-5 fw-bold text-end">@idr_sign($list_obat->sum('harga_satuan')*$list_obat->sum('jumlah')+$list_obat->sum('harga_satuan')*$list_obat->sum('jumlah')*0.1)</p>
                             </div>
                         </div>
                     </div>

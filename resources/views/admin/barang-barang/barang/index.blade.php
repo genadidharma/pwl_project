@@ -47,7 +47,7 @@
                                 {{$barang->nama}}
                             </td>
                             <td><b>{{$barang->kategori->nama}}</b></td>
-                            <td>{{$barang->harga_satuan}}</td>
+                            <td>@idr($barang->harga_satuan)</td>
                             <td>
                                 <form action="{{route('barang.destroy', $barang->id)}}" method="post">
                                     <a href="{{route('barang.edit', $barang->id)}}" class="btn-sm btn-warning">Ubah</a>

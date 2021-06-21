@@ -26,8 +26,8 @@
                                 <td>{{$index+=1}}</td>
                                 <td>{{$resep_obat->barang->nama}}</td>
                                 <td>{{$resep_obat->jumlah}}</td>
-                                <td>{{$resep_obat->barang->harga_satuan}}</td>
-                                <td>{{$resep_obat->total}}</td>
+                                <td>@idr($resep_obat->barang->harga_satuan)</td>
+                                <td>@idr($resep_obat->total)</td>
                             </tr>
                             @endforeach
                         </tbody>
@@ -48,7 +48,7 @@
                             <p>Total Transaksi</p>
                         </div>
                         <div class="col">
-                            <p class="text-end">{{$transaksi->total_harga}}</p>
+                            <p class="text-end">@idr_sign($transaksi->total_harga)</p>
                         </div>
                     </div>
                     <div class="row">
@@ -56,7 +56,7 @@
                             <p>PPN(10%)</p>
                         </div>
                         <div class="col">
-                            <p class="text-end">{{$transaksi->total_ppn}}</p>
+                            <p class="text-end">@idr_sign($transaksi->total_ppn)</p>
                         </div>
                     </div>
                     <div class="row">
@@ -64,7 +64,7 @@
                             <p>Total Biaya</p>
                         </div>
                         <div class="col">
-                            <p class="fw-bold text-end">{{$transaksi->total_harga+$transaksi->total_ppn}}</p>
+                            <p class="fw-bold text-end">@idr_sign($transaksi->total_harga+$transaksi->total_ppn)</p>
                         </div>
                     </div>
                 </div>
@@ -75,7 +75,7 @@
                             <p>Uang</p>
                         </div>
                         <div class="col">
-                            <p class="fw-bold text-end">{{$transaksi->uang}}</p>
+                            <p class="fw-bold text-end">@idr_sign($transaksi->uang)</p>
                         </div>
                     </div>
                     <div class="row">
@@ -83,7 +83,7 @@
                             <p>Kembalian</p>
                         </div>
                         <div class="col">
-                            <p class="fw-bold text-end">{{$transaksi->uang-($transaksi->total_harga+$transaksi->total_ppn)}}</p>
+                            <p class="fw-bold text-end">@idr_sign($transaksi->uang-($transaksi->total_harga+$transaksi->total_ppn))</p>
                         </div>
                     </div>
                 </div>

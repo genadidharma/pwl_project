@@ -159,8 +159,8 @@
                 <td>No</td>
                 <td>Nama</td>
                 <td>Jumlah</td>
-                <td>Harga Satuan</td>
-                <td>Total</td>
+                <td>Harga Satuan(Rp)</td>
+                <td>Total(Rp)</td>
             </tr>
 
             @foreach ($transaksi->resep_obat as $index=>$resep_obat)
@@ -168,19 +168,19 @@
                 <td>{{$index+=1}}</td>
                 <td>{{$resep_obat->barang->nama}}</td>
                 <td>{{$resep_obat->jumlah}}</td>
-                <td>{{$resep_obat->barang->harga_satuan}}</td>
-                <td>{{$resep_obat->total}}</td>
+                <td>@idr($resep_obat->barang->harga_satuan)</td>
+                <td>@idr($resep_obat->total)</td>
             </tr>
             @endforeach
 
             <tr class="total">
-                <td colspan="5" style="text-align: right;">Total Transaksi: {{$transaksi->total_harga}}</td>
+                <td colspan="5" style="text-align: right;">Total Transaksi: @idr_sign($transaksi->total_harga)</td>
             </tr>
             <tr class="total">
-                <td colspan="5" style="text-align: right;">PPN(10%): {{$transaksi->total_ppn}}</td>
+                <td colspan="5" style="text-align: right;">PPN(10%): @idr_sign($transaksi->total_ppn)</td>
             </tr>
             <tr class="total">
-                <td colspan="5" style="text-align: right;">Total Biaya: <b>{{$transaksi->total_harga+$transaksi->total_ppn}}</b></td>
+                <td colspan="5" style="text-align: right;">Total Biaya: <b>@idr_sign($transaksi->total_harga+$transaksi->total_ppn)</b></td>
             </tr>
 
         </table>
@@ -189,10 +189,10 @@
 
         <table>
             <tr class="total">
-                <td colspan="5" style="text-align: right;"> Uang: <b>{{$transaksi->uang}}</b></td>
+                <td colspan="5" style="text-align: right;"> Uang: <b>@idr_sign($transaksi->uang)</b></td>
             </tr>
             <tr class="total">
-                <td colspan="5" style="text-align: right;">Kembalian: <b>{{$transaksi->uang-($transaksi->total_harga+$transaksi->total_ppn)}}</b></td>
+                <td colspan="5" style="text-align: right;">Kembalian: <b>@idr_sign($transaksi->uang-($transaksi->total_harga+$transaksi->total_ppn))</b></td>
             </tr>
         </table>
         

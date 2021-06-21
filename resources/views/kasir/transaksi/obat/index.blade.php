@@ -32,7 +32,7 @@
                             <th>No Transaksi</th>
                             <th>Tanggal</th>
                             <th>Kasir</th>
-                            <th>Total Harga</th>
+                            <th>Total Harga(Rp)</th>
                             <th></th>
                         </tr>
                     </thead>
@@ -42,7 +42,7 @@
                                 <td>{{$index+=1}}</td>
                                 <td>{{Carbon\Carbon::parse($transaksi->created_at)->format('D, d M')}}</td>
                                 <td>{{$transaksi->user->nama}}</td>
-                                <td>{{$transaksi->total_harga+$transaksi->total_ppn}}</td>
+                                <td>@idr($transaksi->total_harga+$transaksi->total_ppn)</td>
                                 <td>
                                     <a href="{{route('transaksi.obat.show', $transaksi->id)}}" class="btn-sm btn-danger">Lihat Struk</a>
                                 </td>

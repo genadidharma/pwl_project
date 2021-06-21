@@ -32,13 +32,13 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($list_barang as $index=>$barang)                                
+                            @foreach ($list_barang as $index=>$barang)
                             <tr>
                                 <td>{{$index+=1}}</td>
                                 <td>{{$barang->nama}}</td>
                                 <td>{{$barang->jumlah}}</td>
-                                <td>{{$barang->harga_satuan}}</td>
-                                <td>{{$barang->total}}</td>
+                                <td>@idr($barang->harga_satuan)</td>
+                                <td>@idr($barang->total)</td>
                             </tr>
                             @endforeach
                         </tbody>
@@ -61,7 +61,7 @@
                                                     <p>Total Transaksi</p>
                                                 </div>
                                                 <div class="col">
-                                                    <p class="text-end">{{$list_barang->sum('total')}}</p>
+                                                    <p class="text-end">@idr_sign($list_barang->sum('total'))</p>
                                                 </div>
                                             </div>
                                             <div class="row">
@@ -69,7 +69,7 @@
                                                     <p>PPN(10%)</p>
                                                 </div>
                                                 <div class="col">
-                                                    <p class="text-end">{{$list_barang->sum('total')*0.1}}</p>
+                                                    <p class="text-end">@idr_sign($list_barang->sum('total')*0.1)</p>
                                                 </div>
                                             </div>
                                         </div>
@@ -80,7 +80,7 @@
                                                     <p>Total Biaya</p>
                                                 </div>
                                                 <div class="col">
-                                                    <p class="fs-5 fw-bold text-end">{{$list_barang->sum('total') + $list_barang->sum('total') * 0.1}}</p>
+                                                    <p class="fs-5 fw-bold text-end">@idr_sign($list_barang->sum('total') + $list_barang->sum('total') * 0.1)</p>
                                                 </div>
                                             </div>
                                         </div>
@@ -123,7 +123,7 @@
                             <p>Total Transaksi</p>
                         </div>
                         <div class="col">
-                            <p class="text-end">{{$list_barang->sum('total')}}</p>
+                            <p class="text-end">@idr_sign($list_barang->sum('total'))</p>
                         </div>
                     </div>
                     <div class="row">
@@ -131,7 +131,7 @@
                             <p>PPN(10%)</p>
                         </div>
                         <div class="col">
-                            <p class="text-end">{{$list_barang->sum('total')*0.1}}</p>
+                            <p class="text-end">@idr_sign($list_barang->sum('total')*0.1)</p>
                         </div>
                     </div>
                 </div>
@@ -142,11 +142,11 @@
                             <p>Total Biaya</p>
                         </div>
                         <div class="col">
-                            <p class="fs-5 fw-bold text-end">{{$list_barang->sum('total') + $list_barang->sum('total') * 0.1}}</p>
+                            <p class="fs-5 fw-bold text-end">@idr_sign($list_barang->sum('total') + $list_barang->sum('total') * 0.1)</p>
                         </div>
                     </div>
                 </div>
             </div>
-    </div>
+        </div>
 </section>
 @endsection
