@@ -82,6 +82,7 @@ class TransaksiBarangController extends Controller
                     'jumlah' => $barang_terpilih['jumlah']
                 ]);
             }
+            Session::remove('list_barang');
             return redirect()->route('transaksi.barang.show', $transaksi->id);
         }
 

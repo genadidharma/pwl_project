@@ -70,4 +70,9 @@ class LoginController extends Controller
         $level = Level::select(['nama'])->where('id', $user->id_level)->first();
         Session::put('level', $level->nama);
     }
+
+    protected function loggedOut(Request $request)
+    {
+        Session::remove('level');
+    }
 }

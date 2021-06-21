@@ -89,7 +89,7 @@ class TransaksiObatController extends Controller
                     'id_transaksi' => $transaksi->id
                 ]);
             }
-    
+            Session::remove('list_obat');
             Pemeriksaan::find($request->get('id_pemeriksaan'))
                 ->update([
                     'status' => 4
