@@ -19,9 +19,9 @@ class Transaksi extends Model
         'uang'
     ];
 
-    public function obat()
+    public function resep_obat()
     {
-        return $this->belongsToMany(ResepObat::class, 'transaksi_obat', 'id_resep_obat', 'id_transaksi');
+        return $this->belongsToMany(ResepObat::class, 'transaksi_obat', 'id_transaksi', 'id_resep_obat');
     }
 
     public function barang()

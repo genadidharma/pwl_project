@@ -1,6 +1,18 @@
 @extends('layouts.app')
 
 @section('content')
+
+@if ($errors->any())
+<div class="alert alert-danger">
+    <strong>Ups!</strong> Ada kesalahan input data<br><br>
+    <ul>
+        @foreach ($errors->all() as $error)
+        <li>{{ $error }}</li>
+        @endforeach
+    </ul>
+</div>
+@endif
+
 <section class="section">
     <div class="card">
         <div class="card-header">
@@ -48,6 +60,7 @@
                                 <th width="50%">Nama</th>
                                 <th>Jumlah</th>
                                 <th>Harga Satuan(Rp)</th>
+                                <th>Total(Rp)</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -57,6 +70,7 @@
                                 <td>{{$obat->nama}}</td>
                                 <td>{{$obat->jumlah}}</td>
                                 <td>{{$obat->harga_satuan}}</td>
+                                <td>{{$obat->total}}</td>
                             </tr>
                             @endforeach
                         </tbody>
@@ -116,7 +130,7 @@
                                             <input type="hidden" name="total_transaksi" value="{{$list_obat->sum('harga_satuan')*$list_obat->sum('jumlah')}}">
                                             <input type="hidden" name="total_ppn" value="{{$list_obat->sum('harga_satuan')*$list_obat->sum('jumlah')*0.1}}">
                                             <input type="hidden" name="total_harga" value="{{$list_obat->sum('harga_satuan')*$list_obat->sum('jumlah')+$list_obat->sum('harga_satuan')*$list_obat->sum('jumlah')*0.1}}">
-                                            <input type="hidden" name="id_resep_obat" value="{{$list_obat[0]->id_resep_obat}}">
+                                            <input type="hidden" name="id_pemeriksaan" value="{{request()->query('id_pemeriksaan')}}">
                                         </div>
                                         <div class="modal-footer">
                                             <input type="submit" name="submit" value="Bayar" class="btn btn-primary">
