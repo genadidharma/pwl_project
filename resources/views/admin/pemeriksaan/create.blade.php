@@ -31,7 +31,7 @@
                     @csrf
                     <div class="form-group">
                         <label for="basicInput">Tanggal <span class="text-danger">*</span></label>
-                        <input type="date" class="form-control @error('tanggal') is-invalid @enderror" id="basicInput" name="tanggal" placeholder="Masukan Tanggal Pemeriksaan" value="{{old('tanggal')}}">
+                        <input type="date" class="form-control @error('tanggal') is-invalid @enderror" id="basicInput" name="tanggal" placeholder="Masukan Tanggal Pemeriksaan" value="{{old('tanggal')}}" min="{{\Carbon\Carbon::parse(\Carbon\Carbon::today())->format('Y-m-d')}}">
 
                         @error('tanggal')
                         <span class="invalid-feedback" role="alert">
