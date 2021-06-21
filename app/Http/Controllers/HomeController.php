@@ -37,7 +37,7 @@ class HomeController extends Controller
                 break;
 
             default:
-                return null;
+                return redirect()->route('login');
                 break;
         }
     }
