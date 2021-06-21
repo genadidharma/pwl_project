@@ -8,6 +8,7 @@ use App\Models\Pemeriksaan;
 use Illuminate\Http\Request;
 use App\Models\TransaksiObat;
 use Illuminate\Support\Facades\Session;
+use PDF;
 
 class TransaksiObatController extends Controller
 {
@@ -114,10 +115,13 @@ class TransaksiObatController extends Controller
         $transaksi->resep_obat->map(function ($obat, $index) use ($transaksi) {
             return $transaksi->resep_obat[$index]->total = $obat->jumlah * $obat->barang->harga_satuan;
         });
+
         if(request()->query('print')){
-            $pdf = PDF::loadview('kasir.transaksi.obat.pdf', compact('transaksi'));
+            $pdf = PDF::loadview('kasir.transaksi.obat.invoice', compact('transaksi'))
+                ->setOptions(['defaultFont' => 'sans-serif']);
             return $pdf->stream();
         }
+
         return view('kasir.transaksi.obat.show', compact('transaksi'));
     }
 

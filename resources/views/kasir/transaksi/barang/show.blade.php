@@ -17,6 +17,7 @@
                                 <th width="50%">Nama</th>
                                 <th>Jumlah</th>
                                 <th>Harga Satuan(Rp)</th>
+                                <th>Total(Rp)</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -24,8 +25,9 @@
                             <tr>
                                 <td>{{$index+=1}}</td>
                                 <td>{{$barang->nama}}</td>
-                                <td>{{$barang->jumlah}}</td>
+                                <td>{{$barang->pivot->jumlah}}</td>
                                 <td>{{$barang->harga_satuan}}</td>
+                                <td>{{$barang->total}}</td>
                             </tr>
                             @endforeach
                         </tbody>
