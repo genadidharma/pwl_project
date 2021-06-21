@@ -38,7 +38,8 @@ class TransaksiBarangController extends Controller
                 $list_barang->push((object)[
                     'nama'=>$barang->nama,
                     'jumlah'=> $barang_terpilih['jumlah'],
-                    'harga_satuan'=>$barang->harga_satuan
+                    'harga_satuan' => $barang->harga_satuan,
+                    'total' => $barang_terpilih['jumlah'] * $barang->harga_satuan
                 ]);
             }
             return view('kasir.transaksi.barang.checkout', compact('list_barang'));
@@ -68,7 +69,7 @@ class TransaksiBarangController extends Controller
             ]);
             $transaksi = Transaksi::create([
                 'id_user'=>auth()->user()->id,
-                'total_harga'=>$request->get('total_harga'),
+                'total_harga' => $request->get('total_transaksi'),
                 'total_ppn'=>$request->get('total_ppn'),
                 'uang'=>$request->get('uang')
             ]);
