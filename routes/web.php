@@ -26,7 +26,7 @@ use App\Models\TransaksiObat;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect()->route('login');
 });
 
 Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'level:admin']], function () {
@@ -43,17 +43,19 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'level:admin']], fun
         Route::resource('stok', StokController::class);
     });
 
-    Route::resource('pemeriksaan', PemeriksaanController::class, ['as'=>'admin']);
+    Route::resource('pemeriksaan', PemeriksaanController::class, ['as' => 'admin']);
 });
 
 Route::group(['prefix' => 'dokter', 'middleware' => ['auth', 'level:dokter']], function () {
-    Route::resource('pemeriksaan', PemeriksaanController::class, ['as'=>'dokter']);
+    Route::resource('pemeriksaan', PemeriksaanController::class, ['as' => 'dokter']);
 });
 
 Route::group(['prefix' => 'kasir', 'middleware' => ['auth', 'level:kasir']], function () {
-    Route::prefix('transaksi')->group(function(){
-        Route::resource('barang', TransaksiBarangController::class, ['as'=>'transaksi']);
-        Route::resource('obat', TransaksiObatController::class, ['as'=>'transaksi']);
+    Route::prefix('transaksi')->group(function () {
+        Route::resource('barang', TransaksiBarangController::class, ['as' => 'transaksi'])
+            ->only(['index', 'create', 'store', 'show']);
+        Route::resource('obat', TransaksiObatController::class, ['as' => 'transaksi'])
+            ->only(['index', 'create', 'store', 'show']);;
     });
 });
 

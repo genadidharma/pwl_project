@@ -23,6 +23,22 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        switch (session('level')) {
+            case 'admin':
+                return redirect()->route('admin.dashboard');
+                break;
+
+            case 'dokter':
+                return redirect()->route('dokter.pemeriksaan.index');
+                break;
+
+            case 'kasir':
+                return redirect()->route('transaksi.obat.index');
+                break;
+
+            default:
+                return null;
+                break;
+        }
     }
 }
