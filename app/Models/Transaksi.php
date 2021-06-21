@@ -28,4 +28,8 @@ class Transaksi extends Model
     {
         return $this->belongsToMany(Barang::class, 'transaksi_barang', 'id_transaksi', 'id_barang')->withPivot('jumlah');
     }
+
+    public function user(){
+        return $this->belongsTo(User::class, 'id_user');
+    }
 }

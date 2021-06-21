@@ -132,6 +132,7 @@
 
                             <td>
                                 Struk ID: {{$transaksi->id}} <br />
+                                Kasir: {{$transaksi->user->nama}} <br />
                                 Dibuat: {{Carbon\Carbon::parse($transaksi->created_at)->format('l, d M')}}<br />
                             </td>
                         </tr>

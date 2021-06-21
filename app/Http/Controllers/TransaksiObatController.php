@@ -19,7 +19,7 @@ class TransaksiObatController extends Controller
      */
     public function index()
     {
-        $list_transaksi_obat = Transaksi::with('resep_obat')
+        $list_transaksi_obat = Transaksi::with(['resep_obat', 'user'])
             ->has('resep_obat')
             ->orderBy('created_at', 'desc')
             ->get();
@@ -108,7 +108,7 @@ class TransaksiObatController extends Controller
     {
         $transaksi = Transaksi::with(['resep_obat' => function ($query) {
             $query->with('barang');
-        }])
+        }, 'user'])
             ->where('id', $id)
             ->first();
 

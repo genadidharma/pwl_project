@@ -7,7 +7,7 @@
             <div class="card">
                 <div class="card-header d-flex align-items-between">
                     <h4 class="align-self-center">Daftar Barang</h4>
-                    <a href="{{route('transaksi.barang.show',['barang'=>$transaksi->id,'print'=>'true'])}}" class="btn btn-danger ms-auto m-3"> <i class="icon-mid bi-file-earmark-arrow-down"></i> Download PDF</a>
+                    <a href="{{route('transaksi.barang.show',['barang'=>$transaksi->id,'print'=>'true'])}}" class="btn btn-danger ms-auto m-3"> <i class="icon-mid bi-file-earmark-arrow-down"></i> Cetak PDF</a>
                 </div>
                 <div class="card-body">
                     <table class="table table-striped" id="table2">

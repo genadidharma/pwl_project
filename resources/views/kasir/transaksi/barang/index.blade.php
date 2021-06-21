@@ -31,6 +31,7 @@
                         <tr>
                             <th>No</th>
                             <th>Tanggal</th>
+                            <th>Kasir</th>
                             <th>Total Harga</th>
                             <th></th>
                         </tr>
@@ -40,6 +41,7 @@
                             <tr>
                                 <td>{{$index+=1}}</td>
                                 <td>{{Carbon\Carbon::parse($transaksi->created_at)->format('D, d M')}}</td>
+                                <td>{{$transaksi->user->nama}}</td>
                                 <td>{{$transaksi->total_harga+$transaksi->total_ppn}}</td>
                                 <td>
                                     <a href="{{route('transaksi.barang.show', $transaksi->id)}}" class="btn-sm btn-danger">Lihat Struk</a>

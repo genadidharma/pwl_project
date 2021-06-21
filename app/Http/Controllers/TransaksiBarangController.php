@@ -18,8 +18,7 @@ class TransaksiBarangController extends Controller
      */
     public function index()
     {
-
-        $list_transaksi_barang = Transaksi::with('barang')
+        $list_transaksi_barang = Transaksi::with(['barang', 'user'])
             ->has('barang')
             ->orderBy('created_at', 'desc')
             ->get();
@@ -102,7 +101,7 @@ class TransaksiBarangController extends Controller
      */
     public function show($id)
     {
-        $transaksi = Transaksi::with('barang')
+        $transaksi = Transaksi::with(['barang', 'user'])
             ->where('id', $id)
             ->first();
 
