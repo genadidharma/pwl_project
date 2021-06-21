@@ -110,6 +110,10 @@ class TransaksiObatController extends Controller
         $transaksi->resep_obat->map(function ($obat, $index) use ($transaksi) {
             return $transaksi->resep_obat[$index]->total = $obat->jumlah * $obat->barang->harga_satuan;
         });
+        if(request()->query('print')){
+            $pdf = PDF::loadview('kasir.transaksi.obat.pdf', compact('transaksi'));
+            return $pdf->stream();
+        }
         return view('kasir.transaksi.obat.show', compact('transaksi'));
     }
 
