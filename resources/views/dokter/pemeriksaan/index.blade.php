@@ -48,6 +48,9 @@
                 toast('{{session("error")}}', '{{session("message")}}')
             </script>
             @endif
+            <div class="card-header">
+                <h4>Daftar Pemeriksaan Selanjutnya</h4>
+            </div>
             <div class="card-body">
                 <table class="table table-striped" id="table1">
                     <thead>
