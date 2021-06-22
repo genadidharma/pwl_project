@@ -163,7 +163,7 @@
                                     <li>
                                         <h6 class="dropdown-header">Halo, {{auth()->user()->nama}}!</h6>
                                     </li>
-                                        <hr class="dropdown-divider">
+                                    <hr class="dropdown-divider">
                                     </li>
                                     <li>
                                         <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
@@ -219,6 +219,20 @@
         let table2 = document.querySelector('#table2')
         let datataTable = new simpleDatatables.DataTable(table2, {
             searching: false
+        })
+    </script>
+
+    <script src="{{asset('assets/vendors/autonumeric/autonumeric.js')}}"></script>
+    <script>
+        let input = document.querySelector('#number-separator')
+        new AutoNumeric(input, {
+            digitGroupSeparator: '.',
+            decimalCharacter: ',',
+            allowDecimalPadding: false,
+            unformatOnSubmit: true,
+            formatOnPageLoad: true,
+            maximumValue: '99999999999',
+            minimumValue: '0'
         })
     </script>
 

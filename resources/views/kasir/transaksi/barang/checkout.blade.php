@@ -2,17 +2,6 @@
 
 @section('content')
 
-@if ($errors->any())
-<div class="alert alert-danger">
-    <strong>Ups!</strong> Ada kesalahan input data<br><br>
-    <ul>
-        @foreach ($errors->all() as $error)
-        <li>{{ $error }}</li>
-        @endforeach
-    </ul>
-</div>
-@endif
-
 <section class="section">
     <div class="row">
         <div class="col-xl-8 col-md-12">
@@ -89,7 +78,7 @@
                                         @csrf
                                         <div class="form-group">
                                             <label for="basicInput">Uang <span class="text-danger">*</span></label>
-                                            <input type="number" class="form-control input-number @error('uang') is-invalid @enderror" id="basicInput" name="uang" placeholder="Masukan Uang">
+                                            <input type="text" id="number-separator" class="form-control input-number @error('uang') is-invalid @enderror" id="basicInput" name="uang" placeholder="Masukan Uang">
                                             @error('uang')
                                             <span class="invalid-feedback" role="alert">
                                                 <strong>{{ $message }}</strong>
@@ -150,3 +139,13 @@
         </div>
 </section>
 @endsection
+
+@push('scripts')
+@if ($errors->any())
+<script>
+    $(window).on('load', function() {
+        $('#pembayaranForm').modal('show')
+    })
+</script>
+@endif
+@endpush

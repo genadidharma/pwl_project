@@ -68,7 +68,7 @@
                         <label for="basicInput">Harga Satuan <span class="text-danger">*</span></label>
                         <div class="input-group">
                             <span class="input-group-text" id="basic-addon1">Rp</span>
-                            <input type="text" class="form-control @error('harga_satuan') is-invalid @enderror" placeholder="Masukan Harga Satuan" id="basicInput" name="harga_satuan" value="{{$barang->harga_satuan}}">
+                            <input type="text" id="number-separator" class="form-control @error('harga_satuan') is-invalid @enderror" placeholder="Masukan Harga Satuan" id="basicInput" name="harga_satuan" value="{{$barang->harga_satuan}}">
 
                             @error('harga_satuan')
                             <span class="invalid-feedback" role="alert">

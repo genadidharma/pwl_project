@@ -46,7 +46,7 @@
                     </div>
                     <div class="form-group">
                         <label for="basicInput">Jumlah <span class="text-danger">*</span></label>
-                        <input type="number" class="form-control @error('jumlah') is-invalid @enderror" id="basicInput" name="jumlah" placeholder="Masukan Jumlah" value="{{$stok->jumlah}}">
+                        <input type="text" id="number-separator" class="form-control @error('jumlah') is-invalid @enderror" id="basicInput" name="jumlah" placeholder="Masukan Jumlah" value="{{$stok->jumlah}}">
 
                         @error('jumlah')
                         <span class="invalid-feedback" role="alert">
