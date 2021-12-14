@@ -24,8 +24,8 @@ jobs:
 
       - name: 'Build and push'
         run: |
-          docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/pethouse .
-          docker push ${{ secrets.DOCKERHUB_USERNAME}}/pethouse
+          docker-compose build app -t ${{ secrets.DOCKERHUB_USERNAME }}/pethouse .
+          docker-compose ${{ secrets.DOCKERHUB_USERNAME}}/pethouse
 
       - name: 'Write config'
         run: |
