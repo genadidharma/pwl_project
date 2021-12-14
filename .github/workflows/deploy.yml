@@ -24,8 +24,8 @@ jobs:
 
       - name: 'Build and push'
         run: |
-          docker-compose build app -t ${{ secrets.DOCKERHUB_USERNAME }}/pethouse .
-          docker-compose ${{ secrets.DOCKERHUB_USERNAME}}/pethouse
+          docker build -t -t ${{ secrets.DOCKERHUB_USERNAME }}/pethouse .
+          docker push ${{ secrets.DOCKERHUB_USERNAME}}/pethouse
 
       - name: 'Write config'
         run: |
@@ -129,11 +129,9 @@ jobs:
             sudo firewall-cmd --zone=docker --add-service=http --permanent
             sudo firewall-cmd --reload
             sudo pip3 install docker-compose
-            sudo /usr/local/bin/docker-compose build app
             sudo /usr/local/bin/docker-compose up -d
             sudo /usr/local/bin/docker-compose ps
-            sudo /usr/local/bin/docker-compose exec app ls -l
-            sudo /usr/local/bin/docker-compose exec app composer install
-            sudo /usr/local/bin/docker-compose exec app php artisan key:generate
-            sudo /usr/local/bin/docker-compose exec app php artisan migrate
-            sudo /usr/local/bin/docker-compose exec app php artisan db:seed
+            sudo /usr/local/bin/docker-compose exec app bash
+            php artisan key:generate
+            php artisan migrate
+            php artisan db:seed
