@@ -3,11 +3,11 @@ services:
   app:
     build:
       args:
-        user: YOUR_USERNAME
-        uid: YOUR_UID
+        user: ubuntu
+        uid: 1001
       context: ./
       dockerfile: Dockerfile
-    image: pethouse
+    image: genadislawa/pethouse:latest
     container_name: pethouse-app
     restart: unless-stopped
     working_dir: /var/www/
