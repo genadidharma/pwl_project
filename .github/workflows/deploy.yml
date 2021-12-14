@@ -114,7 +114,7 @@ jobs:
           source: "docker-compose.yml"
           target: "./"
 
-      - name: 'Running Docker Compose'
+      - name: 'Running Docker Compose and Artisan Command'
         uses: appleboy/ssh-action@master
         with:
           host: ${{env.INSTANCE_IP}}
@@ -142,9 +142,6 @@ jobs:
             sudo /usr/local/bin/docker-compose ps
             sudo /usr/local/bin/docker-compose exec app ls -l
             sudo /usr/local/bin/docker-compose exec app composer install
-
-      - name: 'Running Artisan Command'
-          run: |
             sudo /usr/local/bin/docker-compose exec app php artisan key:generate
             sudo /usr/local/bin/docker-compose exec app php artisan migrate
             sudo /usr/local/bin/docker-compose exec app php artisan db:seed
