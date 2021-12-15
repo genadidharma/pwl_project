@@ -97,22 +97,11 @@ jobs:
           echo "SSH not available..."
           done; echo "SSH ready!"
 
-      - name: 'Configure Deployment Configuration'
-        uses: appleboy/scp-action@master
-        with:
-          host: ${{ env.INSTANCE_IP }}
-          username: ubuntu
-          key: ${{ secrets.OCI_KEY_FILE }}
-          script: |
-            sudo cat ~/.ssh/id_rsa.pub
-            sudo nano ~/.ssh/authorized_keys
-            sudo chmod 700 ~/.ssh/authorized_keys
-
       - name: 'Deploy Deployment Configuration'
         uses: appleboy/scp-action@master
         with:
           host: ${{ env.INSTANCE_IP }}
-          username: ubuntu
+          username: opc
           key: ${{ secrets.OCI_KEY_FILE }}
           source: "docker-compose.yml"
           target: "./"
@@ -121,21 +110,13 @@ jobs:
         uses: appleboy/ssh-action@master
         with:
           host: ${{env.INSTANCE_IP}}
-          username: ubuntu
+          username: opc
           key: ${{secrets.OCI_KEY_FILE}}
           script: |
-            sudo apt-get update
-            sudo apt-get install \
-             ca-certificates \
-             curl \
-             gnupg \
-             lsb-release
-            curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
-            echo \
-             "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu \
-             $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
-            sudo apt-get update
-            sudo apt-get install docker-ce docker-ce-cli containerd.io
+          script: |
+            sudo yum install -y yum-utils
+            sudo yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+            sudo yum install -y docker-ce docker-ce-cli containerd.io
             sudo systemctl restart docker
             sudo firewall-cmd --zone=docker --add-service=http --permanent
             sudo firewall-cmd --reload
