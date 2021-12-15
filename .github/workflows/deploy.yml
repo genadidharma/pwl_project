@@ -103,6 +103,7 @@ jobs:
           host: ${{ env.INSTANCE_IP }}
           username: opc
           key: ${{ secrets.OCI_KEY_FILE }}
+          debug: true
           source: "docker-compose.yml"
           target: "./"
 
