@@ -97,6 +97,17 @@ jobs:
           echo "SSH not available..."
           done; echo "SSH ready!"
 
+      - name: 'Configure Deployment Configuration'
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ env.INSTANCE_IP }}
+          username: ubuntu
+          key: ${{ secrets.OCI_KEY_FILE }}
+          script: |
+            sudo cat ~/.ssh/id_rsa.pub
+            sudo nano ~/.ssh/authorized_keys
+            sudo chmod 700 ~/.ssh/authorized_keys
+
       - name: 'Deploy Deployment Configuration'
         uses: appleboy/scp-action@master
         with:
