@@ -134,7 +134,7 @@ jobs:
           script: |
             sudo docker-compose exec -T app cp .env.example .env
             sudo docker-compose exec -T app chmod 777 .env
-            sudo docker exec -i system_sales bash -c "echo -e 'DB_HOST=${{secrets.DB_HOST}}\nDB_USERNAME=${{secrets.DB_USERNAME}}\nDB_PASSWORD=${{secrets.DB_PASSWORD}}' >> .env"
+            sudo docker exec -i app bash -c "echo -e 'DB_HOST=${{secrets.DB_HOST}}\nDB_DATABASE=${{secrets.DB_DATABASE}}\nDB_USERNAME=${{secrets.DB_USERNAME}}\nDB_PASSWORD=${{secrets.DB_PASSWORD}}' >> .env"
 
       - name: 'Running Docker Compose'
         uses: appleboy/ssh-action@master
