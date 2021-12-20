@@ -122,17 +122,6 @@ jobs:
             sudo firewall-cmd --reload
             sudo pip3 install docker-compose
 
-      - name: 'Running Docker Compose'
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{env.INSTANCE_IP}}
-          username: opc
-          key: ${{secrets.OCI_KEY_FILE}}
-          script: |
-            sudo /usr/local/bin/docker-compose up -d
-            sudo /usr/local/bin/docker-compose ps
-            sudo /usr/local/bin/docker-compose exec app ls -l
-
       - name: 'Setup Environment'
         uses: appleboy/ssh-action@master
         with:
