@@ -122,17 +122,6 @@ jobs:
             sudo firewall-cmd --reload
             sudo pip3 install docker-compose
 
-      - name: 'Setup Environment'
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{env.INSTANCE_IP}}
-          username: opc
-          key: ${{secrets.OCI_KEY_FILE}}
-          script: |
-            sudo docker-compose exec -T app cp .env.example .env
-            sudo docker-compose exec -T app chmod 777 .env
-            sudo docker exec -i app bash -c "echo -e 'DB_HOST=${{secrets.DB_HOST}}\nDB_DATABASE=${{secrets.DB_DATABASE}}\nDB_USERNAME=${{secrets.DB_USERNAME}}\nDB_PASSWORD=${{secrets.DB_PASSWORD}}' >> .env"
-
       - name: 'Running Docker Compose'
         uses: appleboy/ssh-action@master
         with:
@@ -143,6 +132,17 @@ jobs:
             sudo docker-compose up -d
             sudo docker-compose ps
             sudo docker-compose exec app ls -l
+
+      - name: 'Setup Environment'
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{env.INSTANCE_IP}}
+          username: opc
+          key: ${{secrets.OCI_KEY_FILE}}
+          script: |
+            sudo /usr/local/bin/docker-compose exec -T app cp .env.example .env
+            sudo /usr/local/bin/docker-compose exec -T app chmod 777 .env
+            sudo docker exec -i app bash -c "echo -e 'DB_HOST=${{secrets.DB_HOST}}\nDB_DATABASE=${{secrets.DB_DATABASE}}\nDB_USERNAME=${{secrets.DB_USERNAME}}\nDB_PASSWORD=${{secrets.DB_PASSWORD}}' >> .env"
 
       - name: 'Install Dependency & Configuration'
         uses: appleboy/ssh-action@master
