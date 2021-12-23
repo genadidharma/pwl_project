@@ -107,8 +107,8 @@ jobs:
           host: ${{ env.INSTANCE_IP }}
           username: opc
           key: ${{ secrets.OCI_KEY_FILE }}
-          debug: true
-          source: "docker-compose.yml"
+          debug: false
+          source: "Dockerfile, docker-compose.yml, .env"
           target: "./"
 
       - name: 'Install Docker Compose'
