@@ -2,6 +2,9 @@ version: "3.7"
 services:
   app:
     build:
+      args:
+        user: opc
+        uid: 1000
       context: ./
       dockerfile: Dockerfile
     image: pethouse
