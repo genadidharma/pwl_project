@@ -29,8 +29,11 @@ jobs:
 
       - name: 'Setup Environment'
         run: /
-          php -r "file_exists('.env') || copy('.env.example', '.env');"
-          echo -e 'DB_HOST=${{secrets.DB_HOST}}\nDB_DATABASE=${{secrets.DB_DATABASE}}\nDB_USERNAME=${{secrets.DB_USERNAME}}\nDB_PASSWORD=${{secrets.DB_PASSWORD}}' >> .env
+          cp .env.example .env
+          echo 'DB_HOST=${{secrets.DB_HOST}}' >> .env
+          echo 'DB_DATABASE=${{secrets.DB_DATABASE}}' >> .env
+          echo 'DB_USERNAME=${{secrets.DB_USERNAME}}' >> .env
+          echo 'DB_PASSWORD=${{secrets.DB_PASSWORD}}' >> .env
 
       - name: 'Write config'
         run: |
