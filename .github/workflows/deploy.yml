@@ -16,7 +16,7 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Copy .env
-        run: copy('.env.example', '.env');"
+        run: cp .env.example .env
 
       - name: 'Setup Environment'
         run: |
