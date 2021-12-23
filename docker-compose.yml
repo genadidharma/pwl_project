@@ -18,10 +18,10 @@ services:
     container_name: pethouse-db
     restart: unless-stopped
     environment:
-      MYSQL_DATABASE: ${{secrets.DB_DATABASE}}
-      MYSQL_ROOT_PASSWORD: ${{secrets.DB_PASSWORD}}
-      MYSQL_PASSWORD: ${{secrets.DB_PASSWORD}}
-      MYSQL_USER: ${{secrets.DB_USERNAME}}
+      MYSQL_DATABASE: ${secrets.DB_DATABASE}
+      MYSQL_ROOT_PASSWORD: ${secrets.DB_PASSWORD}
+      MYSQL_PASSWORD: ${secrets.DB_PASSWORD}
+      MYSQL_USER: ${secrets.DB_USERNAME}
       SERVICE_TAGS: dev
       SERVICE_NAME: mysql
     networks:
