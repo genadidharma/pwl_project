@@ -97,7 +97,7 @@ jobs:
           username: opc
           key: ${{ secrets.OCI_KEY_FILE }}
           debug: false
-          source: "*"
+          source: "."
           target: "./"
 
       - name: 'Install Docker Compose'
@@ -137,3 +137,4 @@ jobs:
             sudo /usr/local/bin/docker-compose exec -T app php artisan key:generate
             sudo /usr/local/bin/docker-compose exec -T app php artisan migrate
             sudo /usr/local/bin/docker-compose exec -T app php artisan db:seed
+            sudo /usr/local/bin/docker-compose exec -T app php artisan storage:link

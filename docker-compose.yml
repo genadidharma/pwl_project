@@ -31,7 +31,7 @@ services:
       - pethouse
 
   nginx:
-    image: nginx:alpine
+    image: nginx:alpine-latest
     container_name: pethouse-nginx
     restart: unless-stopped
     ports:
