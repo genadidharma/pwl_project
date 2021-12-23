@@ -22,6 +22,7 @@ jobs:
         run: php artisan key:generate
 
       - name: 'Setup Environment'
+        run: vendor/bin/phpunit
         env:
           DB_HOST: ${{secrets.DB_HOST}}
           DB_DATABASE: ${{secrets.DB_DATABASE}}
