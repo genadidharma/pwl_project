@@ -12,15 +12,21 @@ jobs:
       - name: 'Start build job'
         run: |
           echo "Starting the build job"
-
       - name: 'Checkout'
         uses: actions/checkout@v2
-        run: /
-          cp .env.example .env
-          echo 'DB_HOST=${{secrets.DB_HOST}}' >> .env
-          echo 'DB_DATABASE=${{secrets.DB_DATABASE}}' >> .env
-          echo 'DB_USERNAME=${{secrets.DB_USERNAME}}' >> .env
-          echo 'DB_PASSWORD=${{secrets.DB_PASSWORD}}' >> .env
+
+      - name: Copy .env
+        run: php -r "file_exists('.env') || copy('.env.example', '.env');"
+
+      - name: Generate Key
+        run: php artisan key:generate
+
+      - name: 'Setup Environment'
+        env:
+          DB_HOST: ${{secrets.DB_HOST}}
+          DB_DATABASE: ${{secrets.DB_DATABASE}}
+          DB_USERNAME: ${{secrets.DB_USERNAME}}
+          DB_PASSWORD: ${{secrets.DB_PASSWORD}}
 
       - name: 'Login to Dockerhub'
         uses: docker/login-action@v1
@@ -44,7 +50,6 @@ jobs:
           echo "key_file=~/.oci/oci_api_key.pem" >> ~/.oci/config
           echo "${{secrets.OCI_KEY_FILE}}" >> ~/.oci/oci_api_key.pem
           echo "${{secrets.OCI_KEY_PUBLIC}}" >> ~/.oci/oci_api_key_public.pem
-
       - name: 'Install OCI CLI'
         run: |
           curl -L -O https://raw.githubusercontent.com/oracle/oci-cli/master/scripts/install/install.sh
@@ -52,12 +57,10 @@ jobs:
           ./install.sh --accept-all-defaults
           echo "/home/runner/bin" >> $GITHUB_PATH
           exec -l $SHELL
-
       - name: 'Fix Config File Permissions'
         run: |
           oci setup repair-file-permissions --file /home/runner/.oci/config
           oci setup repair-file-permissions --file /home/runner/.oci/oci_api_key.pem
-
       - name: 'Check Existing Instance'
         run: |
           echo "INSTANCE_OCID=$( \
@@ -68,7 +71,6 @@ jobs:
             --query "data [0].id" \
             --raw-output \
             )" >> $GITHUB_ENV
-
       - name: 'Create Instance'
         if: ${{!env.INSTANCE_OCID}}
         run: |
@@ -102,7 +104,6 @@ jobs:
           sleep 5
           echo "SSH not available..."
           done; echo "SSH ready!"
-
       - name: 'Deploy Deployment Configuration'
         uses: appleboy/scp-action@master
         with:
@@ -127,7 +128,6 @@ jobs:
             sudo firewall-cmd --zone=docker --add-service=http --permanent
             sudo firewall-cmd --reload
             sudo pip3 install docker-compose
-
       - name: 'Running Docker Compose'
         uses: appleboy/ssh-action@master
         with:
@@ -138,7 +138,6 @@ jobs:
             sudo /usr/local/bin/docker-compose up -d
             sudo /usr/local/bin/docker-compose ps
             sudo /usr/local/bin/docker-compose exec app ls -l
-
       - name: 'Install Dependency & Configuration'
         uses: appleboy/ssh-action@master
         with:
