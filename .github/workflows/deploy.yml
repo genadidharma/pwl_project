@@ -18,9 +18,6 @@ jobs:
       - name: Copy .env
         run: php -r "file_exists('.env') || copy('.env.example', '.env');"
 
-      - name: Generate Key
-        run: php artisan key:generate
-
       - name: 'Setup Environment'
         run: vendor/bin/phpunit
         env:
